@@ -76,6 +76,26 @@ var common = {
       appMountId: 'app',
       meta: [
         {
+          'http-equiv': 'Content-Security-Policy',
+          content: "default-src 'self' ; img-src 'self' data: ; font-src 'self' data: ; object-src 'none' ; child-src 'none' ; frame-src 'none' ; form-action 'self' ; upgrade-insecure-requests; block-all-mixed-content; base-uri https://rikishi.info/"
+        },
+        {
+          'http-equiv': 'X-XSS-Protection',
+          content: '1;mode=block'
+        },
+        {
+          'http-equiv': 'Strict-Transport-Security',
+          content: 'max-age=31536000; includeSubDomains; preload'
+        },
+        {
+          'http-equiv': 'X-Frame-Options',
+          content: 'DENY'
+        },
+        {
+          'http-equiv': 'X-Content-Type-Options',
+          content: 'nosniff'
+        },
+        {
           name: 'description',
           content: 'A better default template for html-webpack-plugin.'
         },
@@ -97,14 +117,18 @@ var common = {
         removeStyleTypeAttributes: true
       }
     })
-  ],
-
-  devServer: {
-    contentBase: distPath,
-    compress: true,
-    port: 9000
-  }
+  ]
 };
+
+if (TARGET === 'start') {
+  common = merge(common, {
+    devServer: {
+      contentBase: distPath,
+      compress: true,
+      port: 9000
+    }
+  });
+}
 
 if (TARGET === 'build') {
   common = merge(common, {
