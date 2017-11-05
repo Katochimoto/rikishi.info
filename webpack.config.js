@@ -10,8 +10,10 @@ var distPath = path.join(__dirname, 'dist');
 var common = {
   entry: {
     main: path.join(srcPath, 'main.js'),
-    // vendor: [
-    // ]
+    vendor: [
+      'react',
+      'react-dom'
+    ]
   },
 
   output: {
@@ -20,11 +22,36 @@ var common = {
     filename: '[name].js'
   },
 
-  // module: {
-  //   rules: []
-  // },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              'env',
+              'react'
+            ]
+          }
+        }
+      }
+    ]
+  },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+
+    new webpack.ProvidePlugin({
+      'React': 'react',
+      'ReactDOM': 'react-dom'
+    }),
+
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity
@@ -35,6 +62,8 @@ var common = {
       hashDigest: 'hex',
       hashDigestLength: 20
     }),
+
+    //new webpack.optimize.UglifyJsPlugin(),
 
     new HtmlWebpackPlugin({
       title: 'Rikishi',
