@@ -3,5 +3,14 @@
   "version": "1.0.0",
   "repository": "git@github.com:Katochimoto/rikishi.info.git",
   "author": "Katochimoto <bufpost@yandex.ru>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4",
+    "webpack-merge": "^4.1.1"
+  }
 }

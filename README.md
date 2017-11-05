@@ -11,7 +11,7 @@ Credits:
 		Font Awesome (http://fontawesome.io/)
 
 	Other:
-		html5shiv.js (@afarkas @jdalton @jon_neal @rem)
+		// html5shiv.js (@afarkas @jdalton @jon_neal @rem)
 		CSS3 Pie (css3pie.com)
 		Respond.js (https://github.com/scottjehl/Respond)
 		https://github.com/paulirish/matchMedia.js
