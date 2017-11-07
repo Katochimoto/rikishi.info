@@ -53,6 +53,9 @@ var common = {
             presets: [
               'env',
               'react'
+            ],
+            plugins: [
+              'transform-react-jsx-img-import'
             ]
           }
         }
@@ -82,6 +85,14 @@ var common = {
       {
         test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
 		    loader: 'file-loader'
+      },
+
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        use: [
+          'url-loader?limit=10000',
+          'img-loader'
+        ]
       }
     ]
   },
