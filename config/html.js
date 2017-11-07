@@ -18,7 +18,7 @@ module.exports = function (env, options) {
 
   if (env === 'build') {
     config.hash = false;
-    config.baseHref = 'https://rikishi.info/';
+    config.baseHref = options.homepage;
 
     config.minify = {
       minimize: true,
@@ -87,7 +87,7 @@ function meta () {
         "form-action 'self';" +
         "upgrade-insecure-requests;" +
         "block-all-mixed-content;" +
-        "base-uri https://rikishi.info/"
+        "base-uri " + options.homepage
     },
     {
       'http-equiv': 'X-XSS-Protection',

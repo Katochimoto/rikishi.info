@@ -7,11 +7,13 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var homepage = require('./package.json').homepage;
 var TARGET = process.env.npm_lifecycle_event; // start, build
 var srcPath = path.join(__dirname, 'src');
 var distPath = path.join(__dirname, 'dist');
 
 var options = {
+  homepage: homepage,
   srcPath: srcPath,
   distPath: distPath
 };
@@ -59,12 +61,15 @@ var common = {
       {
         test: /\.scss$/,
         use: extractSass.extract({
-            use: [{
-                loader: 'css-loader'
-            }, {
-                loader: 'sass-loader'
-            }],
-            fallback: 'style-loader'
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader'
+            }
+          ],
+          fallback: 'style-loader'
         })
       },
 
@@ -120,7 +125,7 @@ if (TARGET === 'start') {
 if (TARGET === 'build') {
   common = merge(common, {
     output: {
-      publicPath: 'https://rikishi.info/assets/',
+      publicPath: path.join(homepage, 'assets'),
       filename: '[name].[chunkhash].js'
     },
 

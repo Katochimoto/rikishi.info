@@ -4,6 +4,7 @@
   "repository": "git@github.com:Katochimoto/rikishi.info.git",
   "author": "Katochimoto <bufpost@yandex.ru>",
   "license": "MIT",
+  "homepage": "https://rikishi.info",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack"
