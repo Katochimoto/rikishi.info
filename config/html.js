@@ -13,7 +13,7 @@ module.exports = function (env, options) {
     mobile: true,
     lang: 'en-US',
     alwaysWriteToDisk: true,
-    favicon: '/favicon.ico'
+    favicon: path.join(options.srcPath, 'images/icon/favicon.ico')
   };
 
   if (env === 'build') {
