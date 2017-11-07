@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Host: rikishi.info
+Crawl-delay: 5
+Request-rate: 1/5
+# Sitemap: https://rikishi.info/sitemap.xml
