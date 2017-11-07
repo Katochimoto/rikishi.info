@@ -30,7 +30,7 @@ module.exports = function (env, options) {
       removeStyleTypeAttributes: true
     };
 
-    config.meta = meta();
+    config.meta = meta(options);
     config.links = links();
   }
 
@@ -73,7 +73,7 @@ function links () {
   });
 }
 
-function meta () {
+function meta (options) {
   return [
     {
       'http-equiv': 'Content-Security-Policy',

@@ -63,10 +63,16 @@ var common = {
         use: extractSass.extract({
           use: [
             {
-              loader: 'css-loader'
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
             },
             {
-              loader: 'sass-loader'
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true
+              }
             }
           ],
           fallback: 'style-loader'
