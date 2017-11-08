@@ -32,7 +32,9 @@ var common = {
     main: path.join(srcPath, 'main.js'),
     vendor: [
       'react',
-      'react-dom'
+      'react-dom',
+      'jsrsasign',
+      'openpgp'
     ]
   },
 
