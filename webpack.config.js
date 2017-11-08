@@ -7,7 +7,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var homepage = require('./package.json').homepage;
+var homepage = 'https://rikishi.info';
 var TARGET = process.env.npm_lifecycle_event; // start, build
 var srcPath = path.join(__dirname, 'src');
 var distPath = path.join(__dirname, 'dist');
@@ -62,21 +62,51 @@ var common = {
       },
 
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: extractSass.extract({
           use: [
             {
               loader: 'css-loader',
               options: {
-                sourceMap: true
+                modules: true,
+                sourceMap: false,
+                minimize: false,
+                camelCase: true,
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                importLoaders: 1
               }
             },
             {
-              loader: 'sass-loader',
+              loader: 'postcss-loader',
               options: {
-                sourceMap: true
+                ident: 'postcss',
+                sourceMap: false
               }
             }
+            // {
+            //   loader: 'postcss-loader',
+            //   options: {
+            //     sourceMap: true,
+            //     ident: 'postcss',
+            //     parser: 'sugarss',
+            //     exec: true,
+            //     plugins: function (loader) {
+            //       return [
+            //         require('postcss-import')({
+            //           root: loader.resourcePath
+            //         }),
+            //         require('postcss-cssnext')(),
+            //         require('autoprefixer')(),
+            //       ];
+            //     }
+            //   }
+            // },
+            // {
+            //   loader: 'sass-loader',
+            //   options: {
+            //     sourceMap: true
+            //   }
+            // }
           ],
           fallback: 'style-loader'
         })
@@ -99,7 +129,7 @@ var common = {
 
   plugins: [
     new CleanWebpackPlugin([
-      'dist/**/*.*'
+      'dist'
     ], {
       verbose: true
     }),

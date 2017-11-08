@@ -1,4 +1,6 @@
-import './style/main.scss';
+import asd from './style/main.css';
+
+console.log(asd);
 
 // document.body.classList.add('is-loading');
 
