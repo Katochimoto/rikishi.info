@@ -12,8 +12,7 @@ module.exports = function (env, options) {
     appMountId: 'app',
     mobile: true,
     lang: 'en-US',
-    alwaysWriteToDisk: true,
-    favicon: path.join(options.srcPath, 'images/icon/favicon.ico')
+    alwaysWriteToDisk: true
   };
 
   if (env === 'build') {
@@ -31,47 +30,11 @@ module.exports = function (env, options) {
     };
 
     config.meta = meta(options);
-    config.links = links();
+    //config.links
   }
 
   return config;
 };
-
-function links () {
-  return [
-    '57x57',
-    '60x60',
-    '72x72',
-    '76x76',
-    '114x114',
-    '120x120',
-    '144x144',
-    '152x152',
-    '180x180'
-  ].map(function (size) {
-    return {
-      href: '/apple-icon-' + size + '.png',
-      rel: 'apple-touch-icon',
-      sizes: size
-    };
-  }).concat([
-    '32x32',
-    '96x96',
-    '16x16'
-  ].map(function (size) {
-    return {
-      href: '/favicon-' + size + '.png',
-      rel: 'icon',
-      sizes: size,
-      type: 'image/png'
-    };
-  }), {
-    href: '/android-icon-192x192.png',
-    rel: 'icon',
-    sizes: '192x192',
-    type: 'image/png'
-  });
-}
 
 function meta (options) {
   return [

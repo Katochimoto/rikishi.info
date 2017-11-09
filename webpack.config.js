@@ -6,8 +6,9 @@ var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
-var homepage = 'https://rikishi.info';
+var homepage = require('./package.json').homepage;
 var TARGET = process.env.npm_lifecycle_event; // start, build
 var srcPath = path.join(__dirname, 'src');
 var distPath = path.join(__dirname, 'dist');
@@ -21,20 +22,18 @@ var defineConfig = require('./config/define')(TARGET);
 var uglifyConfig = require('./config/uglify')(TARGET);
 var htmlConfig = require('./config/html')(TARGET, options);
 
-var extractSass = new ExtractTextPlugin({
-  filename: '[name].[contenthash].css',
-  disable: TARGET === 'start',
-  allChunks: true
-});
-
 var common = {
   entry: {
     main: path.join(srcPath, 'main.js'),
     vendor: [
       'react',
       'react-dom'
-      //'jsrsasign'
-      //'openpgp'
+    ],
+    jwt: [
+      'jsrsasign'
+    ],
+    pgp: [
+      'openpgp'
     ]
   },
 
@@ -42,6 +41,7 @@ var common = {
     path: path.join(distPath, 'assets'),
     publicPath: '/assets/',
     filename: '[name].js'
+    //chunkFilename: 'chunk.[id].[chunkhash:8].js'
   },
 
   module: {
@@ -65,7 +65,7 @@ var common = {
 
       {
         test: /\.css$/,
-        use: extractSass.extract({
+        use: ExtractTextPlugin.extract({
           use: [
             {
               loader: 'css-loader',
@@ -148,15 +148,57 @@ var common = {
       minChunks: Infinity
     }),
 
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'jwt',
+      async: true,
+      minChunks: Infinity
+    }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'pgp',
+      async: true,
+      minChunks: Infinity
+    }),
+
     new webpack.HashedModuleIdsPlugin({
       hashFunction: 'sha256',
       hashDigest: 'hex',
       hashDigestLength: 20
     }),
 
-    extractSass,
+    new FaviconsWebpackPlugin({
+      logo: path.join(srcPath, 'images', 'avatar.jpg'),
+      prefix: 'icons-[hash]/',
+      emitStats: true,
+      statsFilename: 'iconstats-[hash].json',
+      persistentCache: true,
+      inject: true,
+      background: '#fff',
+      title: 'Rikishi',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false
+      }
+    }),
 
-    new HtmlWebpackPlugin(htmlConfig),
+    new ExtractTextPlugin({
+      filename: '[name].[contenthash].css',
+      disable: TARGET === 'start',
+      allChunks: true
+    }),
+
+    new HtmlWebpackPlugin(merge(htmlConfig, {
+      chunks: ['main', 'vendor']
+    })),
+
     new HtmlWebpackHarddiskPlugin()
   ]
 };
@@ -174,7 +216,7 @@ if (TARGET === 'start') {
 if (TARGET === 'build') {
   common = merge(common, {
     output: {
-      publicPath: path.join(homepage, 'assets'),
+      publicPath: homepage + '/assets',
       filename: '[name].[chunkhash].js'
     },
 
