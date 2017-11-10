@@ -88,7 +88,8 @@ var common = {
                     root: srcPath,
                   }),
                   require('lost'),
-                  require('postcss-cssnext')()
+                  require('postcss-cssnext')(),
+                  require('precss')()
                 ]
               }
             }
