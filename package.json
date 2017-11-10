@@ -49,6 +49,6 @@
     "Edge >= 12",
     "Explorer >= 11",
     "Safari >= 10",
-    "last 2 versions"
+    "> 1%"
   ]
 }
