@@ -82,39 +82,16 @@ var common = {
             {
               loader: 'postcss-loader',
               options: {
-                //ident: 'postcss',
                 sourceMap: false,
-                plugins: function (loader) {
-                  return [
-                    require('postcss-cssnext')()
-                  ];
-                }
+                plugins: [
+                  require('postcss-import')({
+                    root: srcPath,
+                  }),
+                  require('lost'),
+                  require('postcss-cssnext')()
+                ]
               }
             }
-            // {
-            //   loader: 'postcss-loader',
-            //   options: {
-            //     sourceMap: true,
-            //     ident: 'postcss',
-            //     parser: 'sugarss',
-            //     exec: true,
-            //     plugins: function (loader) {
-            //       return [
-            //         require('postcss-import')({
-            //           root: loader.resourcePath
-            //         }),
-            //         require('postcss-cssnext')(),
-            //         require('autoprefixer')(),
-            //       ];
-            //     }
-            //   }
-            // },
-            // {
-            //   loader: 'sass-loader',
-            //   options: {
-            //     sourceMap: true
-            //   }
-            // }
           ]
         })
       },

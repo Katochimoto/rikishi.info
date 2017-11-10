@@ -37,6 +37,8 @@
 	body {
 		height: 100%;
 		background-color: _palette(bg);
+
+
 		@include vendor('background-image', (
 			'url("/images/overlay.png")',
 			'linear-gradient(60deg, #{transparentize(_palette(accent1), 0.5)} 5%, #{transparentize(_palette(accent2), 0.65)})',

@@ -1,0 +1,5 @@
+@import "../../style";
+
+.test {
+  color: var(--color-blue);
+}

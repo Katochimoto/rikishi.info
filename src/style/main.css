@@ -1,4 +1,6 @@
-@charset "utf-8";
+@import "./index.css";
+
+@custom-selector :--heading body, input, select, textarea;
 
 :global html {
   height: 100%;
@@ -6,8 +8,9 @@
 
 :global body {
   height: 100%;
+  background-color: var(--color-bg);
 }
 
-.test {
-  color: red;
+:global :--heading {
+  color: var(--color-fg);
 }
