@@ -66,6 +66,7 @@ var common = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
@@ -81,8 +82,13 @@ var common = {
             {
               loader: 'postcss-loader',
               options: {
-                ident: 'postcss',
-                sourceMap: false
+                //ident: 'postcss',
+                sourceMap: false,
+                plugins: function (loader) {
+                  return [
+                    require('postcss-cssnext')()
+                  ];
+                }
               }
             }
             // {
@@ -109,8 +115,7 @@ var common = {
             //     sourceMap: true
             //   }
             // }
-          ],
-          fallback: 'style-loader'
+          ]
         })
       },
 
@@ -166,28 +171,28 @@ var common = {
       hashDigestLength: 20
     }),
 
-    new FaviconsWebpackPlugin({
-      logo: path.join(srcPath, 'images', 'avatar.jpg'),
-      prefix: 'icons-[hash]/',
-      emitStats: true,
-      statsFilename: 'iconstats-[hash].json',
-      persistentCache: true,
-      inject: true,
-      background: '#fff',
-      title: 'Rikishi',
-      icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: true,
-        coast: false,
-        favicons: true,
-        firefox: true,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false
-      }
-    }),
+    // new FaviconsWebpackPlugin({
+    //   logo: path.join(srcPath, 'images', 'avatar.jpg'),
+    //   prefix: 'icons-[hash]/',
+    //   emitStats: true,
+    //   statsFilename: 'iconstats-[hash].json',
+    //   persistentCache: true,
+    //   inject: true,
+    //   background: '#fff',
+    //   title: 'Rikishi',
+    //   icons: {
+    //     android: true,
+    //     appleIcon: true,
+    //     appleStartup: true,
+    //     coast: false,
+    //     favicons: true,
+    //     firefox: true,
+    //     opengraph: false,
+    //     twitter: false,
+    //     yandex: false,
+    //     windows: false
+    //   }
+    // }),
 
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
