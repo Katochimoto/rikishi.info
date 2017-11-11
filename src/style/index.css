@@ -1,3 +1,2 @@
 @charset "utf-8";
-@import "./shared/colors.css";
-@import "./shared/typography.css";
+@import "./shared/*.css";

@@ -1,0 +1,35 @@
+:root {
+	--z-index-base: 10000;
+}
+
+:root {
+	--duration-transition: 0.2s;
+	--duration-bg: 1.75s;
+	--duration-main: 1s;
+}
+
+:root {
+	--size-border-radius: 4px;
+	--size-border-width: 1px;
+	--size-element-height: 2.75em;
+	--size-element-margin: 1.5em;
+	--size-letter-spacing: 0.2em;
+}
+
+:root {
+	--font-family: 'Source Sans Pro', Helvetica, sans-serif;
+	--font-family-fixed: 'Courier New', monospace;
+	--font-weight: 300;
+}
+
+:root {
+  --color-bg: #ffffff;
+	--color-bg-alt: #e1dfe8;
+	--color-fg: #414f57;
+	--color-fg-bold: #313f47;
+	--color-fg-light: #616f77;
+	--color-border: #c8cccf;
+	--color-accent1: #ffa596;
+	--color-accent2: #00e4ff;
+	--color-highlight: #ff7496;
+}

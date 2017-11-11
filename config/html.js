@@ -12,7 +12,13 @@ module.exports = function (env, options) {
     appMountId: 'app',
     mobile: true,
     lang: 'en-US',
-    alwaysWriteToDisk: true
+    alwaysWriteToDisk: true,
+    links: [
+      {
+        href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300',
+        rel: 'stylesheet'
+      }
+    ]
   };
 
   if (env === 'build') {
@@ -30,7 +36,6 @@ module.exports = function (env, options) {
     };
 
     config.meta = meta(options);
-    //config.links
   }
 
   return config;

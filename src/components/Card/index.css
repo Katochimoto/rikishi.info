@@ -1,0 +1,20 @@
+@import "../../style";
+
+.card {
+  position: relative;
+  max-width: 100%;
+  min-width: 21em;
+  padding: 4.5em 3em 3em 3em;
+
+  background: var(--color-bg);
+  border-radius: var(--size-border-radius);
+  cursor: default;
+  opacity: 0.95;
+  text-align: center;
+
+  transform-origin: 50% 50%;
+  transform: rotateX(0deg);
+  transition:
+    opacity var(--duration-main) ease,
+    transform var(--duration-main) ease;
+}

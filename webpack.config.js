@@ -75,7 +75,7 @@ var common = {
                 sourceMap: false,
                 minimize: false,
                 camelCase: true,
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                localIdentName: '[local]--[hash:base64:5]', // [path][name]__
                 importLoaders: 1
               }
             },
@@ -84,12 +84,12 @@ var common = {
               options: {
                 sourceMap: false,
                 plugins: [
-                  require('postcss-import')({
-                    root: srcPath,
+                  require('postcss-easy-import')({
+                    root: srcPath
                   }),
                   require('lost'),
-                  require('postcss-cssnext')(),
-                  require('precss')()
+                  require('precss')(),
+                  require('postcss-cssnext')()
                 ]
               }
             }

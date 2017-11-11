@@ -1,6 +1,122 @@
 @import "./index.css";
+@import "normalize.css";
+/* @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300'); */
 
-@custom-selector :--heading body, input, select, textarea;
+@custom-media --xlarge-viewport (max-width: 1680px);
+@custom-media --large-viewport (max-width: 1280px);
+@custom-media --medium-viewport (max-width: 960px);
+@custom-media --small-viewport (max-width: 736px);
+@custom-media --xsmall-viewport (max-width: 480px);
+@custom-media --xxsmall-viewport (max-width: 360px);
+
+@custom-selector :--common-font body, input, select, textarea;
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;
+@custom-selector :--heading-small h3, h4, h5, h6;
+@custom-selector :--italic em, i;
+@custom-selector :--strong strong, b;
+
+:global :--common-font {
+  color: var(--color-fg);
+  font-family: var(--font-family);
+  font-size: 13pt;
+  font-weight: var(--font-weight);
+  line-height: 1.5em;
+  letter-spacing: var(--size-letter-spacing);
+  text-transform: uppercase;
+}
+
+@media (--xlarge-viewport) {
+  :global :--common-font {
+    font-size: 11pt;
+  }
+}
+
+@media (--xsmall-viewport) {
+  :global :--common-font {
+    font-size: 10pt;
+    line-height: 1.75;
+  }
+}
+
+:global :--heading {
+  color: var(--color-fg-bold);
+  line-height: 1.5;
+  margin: 0 0 calc(var(--size-element-margin) * 0.5) 0;
+}
+
+:global h1 {
+  font-size: 1.85em;
+  letter-spacing: calc(var(--size-letter-spacing) * 1.1);
+  margin: 0 0 calc(var(--size-element-margin) * 0.35) 0;
+}
+
+/* @include breakpoint(xsmall) {
+  h1 {
+    font-size: 1.65em;
+  }
+} */
+
+:global h2 {
+  font-size: 1.25em;
+}
+
+:global :--heading-small {
+  font-size: 1em;
+}
+
+:global sub {
+  font-size: 0.8em;
+  position: relative;
+  top: 0.5em;
+}
+
+:global sup {
+  font-size: 0.8em;
+  position: relative;
+  top: -0.5em;
+}
+
+:global hr {
+  border: 0;
+  border-bottom: solid var(--size-border-width) var(--color-border);
+  margin: calc(var(--size-element-margin) * 2) 0;
+}
+
+:global :--strong {
+  color: var(--color-fg-bold);
+}
+
+:global :--italic {
+  font-style: italic;
+}
+
+:global p {
+  margin: 0 0 var(--size-element-margin) 0;
+}
+
+:global a {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    color var(--duration-transition) ease,
+    border-color var(--duration-transition) ease;
+}
+
+:global a:before {
+  transition:
+    color var(--duration-transition) ease,
+    text-shadow var(--duration-transition) ease;
+}
+
+:global a:hover {
+  color: var(--color-highlight);
+}
+
+
+
+
+
+
 
 :global html {
   height: 100%;
@@ -9,8 +125,43 @@
 :global body {
   height: 100%;
   background-color: var(--color-bg);
+  background-image:
+    url('../images/overlay.png'),
+    linear-gradient(60deg, color(var(--color-accent1) alpha(50%)) 5%, color(var(--color-accent2) alpha(65%))),
+    url('../images/bg.jpg');
+  background-repeat:		repeat,			no-repeat,			no-repeat;
+  background-size:		100px 100px,	cover,				cover;
+  background-position:	top left,		center center,		bottom center;
+  background-attachment:	fixed,			fixed,				fixed;
+
+  &:after {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: inherit;
+    opacity: 0;
+    z-index: 1;
+
+    background-color: var(--color-bg);
+    background-image:
+      url('../images/overlay.png'),
+      linear-gradient(60deg, color(var(--color-accent1) alpha(50%)) 5%, color(var(--color-accent2) alpha(65%)));
+    background-repeat:		repeat,			no-repeat;
+    background-size:		100px 100px,	cover;
+    background-position:	top left,		center center;
+    transition: opacity var(--duration-bg) ease-out;
+  }
+
+  &.is-loading {
+    &:after {
+      opacity: 1;
+    }
+  }
 }
 
-:global :--heading {
-  color: var(--color-fg);
+:global #app {
+  height: 100%;
 }
