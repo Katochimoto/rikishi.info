@@ -5,8 +5,15 @@ export default function Footer () {
   return (
     <footer className={style.footer}>
       <ul className={style.copyright}>
-        <li className={style.copyrightItem}>&copy; Anton Tursenev</li>
-        <li className={style.copyrightItem}>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        <li className={style.copyrightItem}>
+          &copy; Rikishi
+        </li>
+        <li className={style.copyrightItem}>
+          Design:
+          <a href="https://html5up.net/identity"
+            rel="nofollow"
+            target="_blank">HTML5 UP</a>
+        </li>
       </ul>
     </footer>
   );

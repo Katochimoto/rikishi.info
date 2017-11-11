@@ -8,7 +8,7 @@ export default function Card () {
     <section className={style.card}>
       <header>
         <Avatar />
-        <h1>Anton Tursenev</h1>
+        <h1>Rikishi</h1>
         <p>Senior Psychonautics Engineer</p>
       </header>
       <footer>

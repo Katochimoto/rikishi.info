@@ -89,7 +89,8 @@ var common = {
                   }),
                   require('lost'),
                   require('precss')(),
-                  require('postcss-cssnext')()
+                  require('postcss-cssnext')(),
+                  require('css-mqpacker')()
                 ]
               }
             }

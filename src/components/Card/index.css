@@ -9,12 +9,20 @@
   background: var(--color-bg);
   border-radius: var(--size-border-radius);
   cursor: default;
-  opacity: 0.95;
+
   text-align: center;
 
+  opacity: 0;
+  transform: rotateX(15deg);
+
   transform-origin: 50% 50%;
-  transform: rotateX(0deg);
+
   transition:
     opacity var(--duration-main) ease,
     transform var(--duration-main) ease;
+
+  @nest :global(body.is-loaded) & {
+    transform: rotateX(0deg);
+    opacity: 0.95;
+  }
 }

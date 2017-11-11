@@ -1,2 +1,20 @@
 @charset "utf-8";
 @import "./shared/*.css";
+
+@custom-media --xlarge-viewport (max-width: 1680px);
+@custom-media --large-viewport (max-width: 1280px);
+@custom-media --medium-viewport (max-width: 960px);
+@custom-media --small-viewport (max-width: 736px);
+@custom-media --xsmall-viewport (max-width: 480px);
+@custom-media --xxsmall-viewport (max-width: 360px);
+@custom-media --color-print (print and (color));
+@custom-media --monochrome-print (print and (monochrome));
+
+@media (--xlarge-viewport) {.fake{color:#000;}}
+@media (--large-viewport) {.fake{color:#000;}}
+@media (--medium-viewport) {.fake{color:#000;}}
+@media (--small-viewport) {.fake{color:#000;}}
+@media (--xsmall-viewport) {.fake{color:#000;}}
+@media (--xxsmall-viewport) {.fake{color:#000;}}
+@media (--color-print) {.fake{color:#000;}}
+@media (--monochrome-print) {.fake{color:#000;}}
