@@ -1,13 +1,19 @@
-import Footer from '../Footer';
-import Card from '../Card';
+import {
+  HashRouter as Router,
+  Route
+} from 'react-router-dom';
+
+import About from '../About';
 
 import style from './index.css';
 
 export default function App () {
   return (
-    <div className={style.app}>
-      <Card />
-      <Footer />
-    </div>
+    <Router>
+      <div className={style.app}>
+        <Route exact path="/" component={About} />
+        <Route path="/about" component={About} />
+      </div>
+    </Router>
   );
 }

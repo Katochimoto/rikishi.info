@@ -16,6 +16,7 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "clean-webpack-plugin": "0.1.17",
+    "compression-webpack-plugin": "^1.0.1",
     "css-loader": "0.28.7",
     "css-mqpacker": "^6.0.1",
     "extract-text-webpack-plugin": "3.0.2",
@@ -42,7 +43,8 @@
     "jsrsasign": "^8.0.4",
     "openpgp": "^2.5.13",
     "react": "16.0.0",
-    "react-dom": "16.0.0"
+    "react-dom": "16.0.0",
+    "react-router-dom": "^4.2.2"
   },
   "browserslist": [
     "Firefox >= 56",

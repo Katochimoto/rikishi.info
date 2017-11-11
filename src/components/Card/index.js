@@ -9,7 +9,7 @@ export default function Card () {
       <header>
         <Avatar />
         <h1>Rikishi</h1>
-        <p>Senior Psychonautics Engineer</p>
+        <p>Senior Web Developer</p>
       </header>
       <footer>
         <Social />

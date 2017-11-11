@@ -7,6 +7,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+var CompressionPlugin = require('compression-webpack-plugin');
 
 var homepage = require('./package.json').homepage;
 var TARGET = process.env.npm_lifecycle_event; // start, build
@@ -27,7 +28,8 @@ var common = {
     main: path.join(srcPath, 'main.js'),
     vendor: [
       'react',
-      'react-dom'
+      'react-dom',
+      'react-router-dom'
     ],
     jwt: [
       'jsrsasign'
@@ -120,6 +122,8 @@ var common = {
       verbose: true
     }),
 
+    new webpack.NoErrorsPlugin(),
+
     new webpack.DefinePlugin(defineConfig),
 
     new webpack.ProvidePlugin({
@@ -150,28 +154,28 @@ var common = {
       hashDigestLength: 20
     }),
 
-    // new FaviconsWebpackPlugin({
-    //   logo: path.join(srcPath, 'images', 'avatar.jpg'),
-    //   prefix: 'icons-[hash]/',
-    //   emitStats: true,
-    //   statsFilename: 'iconstats-[hash].json',
-    //   persistentCache: true,
-    //   inject: true,
-    //   background: '#fff',
-    //   title: 'Rikishi',
-    //   icons: {
-    //     android: true,
-    //     appleIcon: true,
-    //     appleStartup: true,
-    //     coast: false,
-    //     favicons: true,
-    //     firefox: true,
-    //     opengraph: false,
-    //     twitter: false,
-    //     yandex: false,
-    //     windows: false
-    //   }
-    // }),
+    new FaviconsWebpackPlugin({
+      logo: path.join(srcPath, 'images', 'avatar.jpg'),
+      prefix: 'icons-[hash]/',
+      emitStats: true,
+      statsFilename: 'iconstats-[hash].json',
+      persistentCache: true,
+      inject: true,
+      background: '#fff',
+      title: 'Rikishi',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: false,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        yandex: false,
+        windows: false
+      }
+    }),
 
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
@@ -205,7 +209,17 @@ if (TARGET === 'build') {
     },
 
     plugins: [
-      new UglifyJSPlugin(uglifyConfig)
+      new webpack.optimize.OccurrenceOrderPlugin(),
+
+      new UglifyJSPlugin(uglifyConfig),
+
+      new CompressionPlugin({
+        asset: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.js$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8
+      })
     ]
   });
 }
