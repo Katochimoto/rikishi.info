@@ -18,8 +18,11 @@ export default function Social () {
         <Link to="/" className={style.socialLink}>...</Link>
       </li>
       <li className={style.socialItem}>
-      <Link to="/about" className={style.socialLink}>...</Link>
-    </li>
+        <Link to="/about" className={style.socialLink}>...</Link>
+      </li>
+      <li className={style.socialItem}>
+        <Link to="/qwe" className={style.socialLink}>...</Link>
+      </li>
     </ul>
   );
 }

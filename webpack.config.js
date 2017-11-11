@@ -209,7 +209,7 @@ if (TARGET === 'start') {
 if (TARGET === 'build') {
   common = merge(common, {
     output: {
-      publicPath: homepage + '/assets'
+      publicPath: homepage + '/assets/'
     },
 
     plugins: [

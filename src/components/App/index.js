@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 import About from '../About';
+import NoMatch from '../NoMatch';
 
 import style from './index.css';
 
@@ -20,6 +21,7 @@ export default function App () {
         <Switch>
           <Route exact path="/" component={About} />
           <Route path="/about" component={About} />
+          <Route component={NoMatch}/>
         </Switch>
       </div>
     </Router>
