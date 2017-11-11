@@ -13,13 +13,14 @@
 	--size-border-width: 1px;
 	--size-element-height: 2.75em;
 	--size-element-margin: 1.5em;
-	--size-letter-spacing: 0.2em;
+	--size-letter-spacing: 0.1em;
 }
 
 :root {
-	--font-family: 'Source Sans Pro', Helvetica, sans-serif;
-	--font-family-fixed: 'Courier New', monospace;
+	--font-family: 'Quicksand', Helvetica, sans-serif; /*  , 'Source Sans Pro' */
+	/* --font-family-fixed: 'Courier New', monospace; */
 	--font-weight: 300;
+	--header-font-weight: 400;
 }
 
 :root {

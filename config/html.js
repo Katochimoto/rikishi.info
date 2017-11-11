@@ -12,13 +12,13 @@ module.exports = function (env, options) {
     appMountId: 'app',
     mobile: true,
     lang: 'en-US',
-    alwaysWriteToDisk: true,
-    links: [
-      {
-        href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300',
-        rel: 'stylesheet'
-      }
-    ]
+    alwaysWriteToDisk: true
+    // links: [
+    //   {
+    //     href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300',
+    //     rel: 'stylesheet'
+    //   }
+    // ]
   };
 
   if (env === 'build') {
