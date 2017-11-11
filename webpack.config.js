@@ -26,24 +26,24 @@ var htmlConfig = require('./config/html')(TARGET, options);
 var common = {
   entry: {
     main: path.join(srcPath, 'main.js'),
-    vendor: [
-      'react',
-      'react-dom',
-      'react-router-dom'
-    ],
-    jwt: [
-      'jsrsasign'
-    ],
-    pgp: [
-      'openpgp'
-    ]
+    // vendor: [
+    //   'react',
+    //   'react-dom',
+    //   'react-router-dom'
+    // ],
+    // jwt: [
+    //   'jsrsasign'
+    // ],
+    // pgp: [
+    //   'openpgp'
+    // ]
   },
 
   output: {
     path: path.join(distPath, 'assets'),
     publicPath: '/assets/',
-    filename: '[name].js'
-    //chunkFilename: 'chunk.[id].[chunkhash:8].js'
+    filename: '[name].[chunkhash].js',
+    chunkFilename: 'chunk.[chunkhash].js' // chunk.[id].[chunkhash:8].js
   },
 
   module: {
@@ -122,7 +122,7 @@ var common = {
       verbose: true
     }),
 
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
 
     new webpack.DefinePlugin(defineConfig),
 
@@ -132,21 +132,26 @@ var common = {
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity
+      async: true,
+      children: true
     }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'jwt',
-      async: true,
-      minChunks: Infinity
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor',
+    //   minChunks: Infinity
+    // }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'pgp',
-      async: true,
-      minChunks: Infinity
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'jwt',
+    //   async: true,
+    //   minChunks: Infinity
+    // }),
+
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'pgp',
+    //   async: true,
+    //   minChunks: Infinity
+    // }),
 
     new webpack.HashedModuleIdsPlugin({
       hashFunction: 'sha256',
@@ -154,28 +159,28 @@ var common = {
       hashDigestLength: 20
     }),
 
-    new FaviconsWebpackPlugin({
-      logo: path.join(srcPath, 'images', 'avatar.jpg'),
-      prefix: 'icons-[hash]/',
-      emitStats: true,
-      statsFilename: 'iconstats-[hash].json',
-      persistentCache: true,
-      inject: true,
-      background: '#fff',
-      title: 'Rikishi',
-      icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: false,
-        coast: false,
-        favicons: true,
-        firefox: true,
-        opengraph: false,
-        twitter: false,
-        yandex: false,
-        windows: false
-      }
-    }),
+    // new FaviconsWebpackPlugin({
+    //   logo: path.join(srcPath, 'images', 'avatar.jpg'),
+    //   prefix: 'icons-[hash]/',
+    //   emitStats: true,
+    //   statsFilename: 'iconstats-[hash].json',
+    //   persistentCache: true,
+    //   inject: true,
+    //   background: '#fff',
+    //   title: 'Rikishi',
+    //   icons: {
+    //     android: true,
+    //     appleIcon: true,
+    //     appleStartup: false,
+    //     coast: false,
+    //     favicons: true,
+    //     firefox: true,
+    //     opengraph: false,
+    //     twitter: false,
+    //     yandex: false,
+    //     windows: false
+    //   }
+    // }),
 
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
@@ -204,8 +209,7 @@ if (TARGET === 'start') {
 if (TARGET === 'build') {
   common = merge(common, {
     output: {
-      publicPath: homepage + '/assets',
-      filename: '[name].[chunkhash].js'
+      publicPath: homepage + '/assets'
     },
 
     plugins: [
