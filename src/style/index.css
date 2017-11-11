@@ -7,6 +7,7 @@
 @custom-media --small-viewport (max-width: 736px);
 @custom-media --xsmall-viewport (max-width: 480px);
 @custom-media --xxsmall-viewport (max-width: 360px);
+@custom-media --xxxsmall-viewport (max-width: 320px);
 @custom-media --color-print (print and (color));
 @custom-media --monochrome-print (print and (monochrome));
 
