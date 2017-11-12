@@ -5,20 +5,28 @@ module.exports = function (env, options) {
     title: 'Rikishi',
     inject: false,
     filename: path.join(options.distPath, 'index.html'),
-    template: require('html-webpack-template'),
+    template: path.join(options.srcPath, 'main.ejs'),
     hash: true,
     cache: true,
     chunksSortMode: 'dependency',
     appMountId: 'app',
     mobile: true,
     lang: 'en-US',
-    alwaysWriteToDisk: true
-    // links: [
-    //   {
-    //     href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300',
-    //     rel: 'stylesheet'
-    //   }
-    // ]
+    alwaysWriteToDisk: true,
+    links: [
+      {
+        rel: 'preconnect',
+        href: 'https://www.googletagmanager.com'
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://www.google-analytics.com'
+      },
+      // {
+      //   rel: 'prefetch',
+      //   href: 'https://www.google-analytics.com/analytics.js'
+      // }
+    ]
   };
 
   if (env === 'build') {
