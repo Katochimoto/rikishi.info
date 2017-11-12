@@ -1,6 +1,9 @@
+var fs = require('fs');
 var path = require('path');
 
 module.exports = function (env, options) {
+  var svgIcons = fs.readFileSync(path.join(process.cwd(), 'node_modules/calendar-icons/dist/svg/symbols.svg'), 'utf-8');
+
   var config = {
     title: 'Rikishi',
     inject: false,
@@ -13,6 +16,10 @@ module.exports = function (env, options) {
     mobile: true,
     lang: 'en-US',
     alwaysWriteToDisk: true,
+    googleTag: {
+      trackingId: 'UA-109489660-1'
+    },
+    svgIcons: svgIcons,
     links: [
       {
         rel: 'preconnect',
@@ -21,11 +28,7 @@ module.exports = function (env, options) {
       {
         rel: 'preconnect',
         href: 'https://www.google-analytics.com'
-      },
-      // {
-      //   rel: 'prefetch',
-      //   href: 'https://www.google-analytics.com/analytics.js'
-      // }
+      }
     ]
   };
 

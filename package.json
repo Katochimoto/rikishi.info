@@ -41,6 +41,8 @@
     "webpack-merge": "4.1.1"
   },
   "dependencies": {
+    "calendar-icons": "Katochimoto/calendar-icons.git#rikishi-info",
+    "classnames": "^2.2.5",
     "jsrsasign": "^8.0.4",
     "openpgp": "^2.5.13",
     "react": "16.0.0",

@@ -51,6 +51,9 @@
 
   </head>
   <body>
+    <% if (htmlWebpackPlugin.options.svgIcons) { %>
+        <%= htmlWebpackPlugin.options.svgIcons %>
+    <% } %>
     <% if (htmlWebpackPlugin.options.unsupportedBrowser) { %>
     <style>.unsupported-browser { display: none; }</style>
     <div class="unsupported-browser">
@@ -90,9 +93,10 @@
       type="text/javascript"
       charset="utf-8"
       integrity="<%= htmlWebpackPlugin.files.jsIntegrity[htmlWebpackPlugin.files.js.indexOf(htmlWebpackPlugin.files.chunks[key].entry)] %>"
-      crossorigin="<%= webpackConfig.output.crossOriginLoading %>"></script>
+      crossorigin="<%= webpackConfig.output.crossOriginLoading %>"
+      defer></script>
     <% } else { %>
-    <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript" charset="utf-8"></script>
+    <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript" charset="utf-8" defer></script>
     <% } %>
     <% } %>
 
@@ -115,12 +119,17 @@
     <script async defer src="https://www.google-analytics.com/analytics.js" type="text/javascript" charset="utf-8"></script>
     <% } %>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109489660-1" charset="utf-8"></script>
-    <script>
+    <% if (htmlWebpackPlugin.options.googleTag) { %>
+    <script src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.googleTag.trackingId %>"
+      type="text/javascript"
+      charset="utf-8"
+      async></script>
+    <script type="text/javascript">
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'UA-109489660-1');
+      gtag('config', '<%= htmlWebpackPlugin.options.googleTag.trackingId %>');
     </script>
+    <% } %>
   </body>
 </html>

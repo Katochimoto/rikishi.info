@@ -13,7 +13,6 @@
 }
 
 .social-link {
-  /* @include icon-alt(false, true); */
   position: relative;
   display: block;
   width: 3.75em;
@@ -23,8 +22,8 @@
   line-height: 3.75em;
   overflow: hidden;
   text-align: center;
-  text-indent: 3.75em;
   white-space: nowrap;
+  color: var(--color-border);
 }
 
 .social-link:before {
@@ -41,5 +40,13 @@
 
 .social-link:hover {
   border-color: var(--color-highlight);
+}
+
+.social-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
 }
 

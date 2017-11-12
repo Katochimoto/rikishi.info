@@ -1,18 +1,37 @@
-import style from './index.css';
-
 import { Link } from 'react-router-dom';
+import Icon from '../Icon';
+
+import style from './index.css';
 
 export default function Social () {
   return (
     <ul className={style.social}>
       <li className={style.socialItem}>
-        <a href="#" className={style.socialLink} rel="nofollow" target="_blank">Twitter</a>
+        <a href="https://www.facebook.com/tursenev"
+          title="Facebook"
+          className={style.socialLink}
+          rel="nofollow"
+          target="_blank">
+          <Icon type="facebook" size="m" className={style.socialIcon} />
+        </a>
       </li>
       <li className={style.socialItem}>
-        <a href="#" className={style.socialLink} rel="nofollow" target="_blank">GitHub</a>
+        <a href="https://github.com/Katochimoto"
+          title="GitHub"
+          className={style.socialLink}
+          rel="nofollow"
+          target="_blank">
+          <Icon type="github" size="m" className={style.socialIcon} />
+        </a>
       </li>
       <li className={style.socialItem}>
-        <a href="#" className={style.socialLink} rel="nofollow" target="_blank">Linkedin</a>
+        <a href="https://www.linkedin.com/in/rikishi/"
+          title="Linkedin"
+          className={style.socialLink}
+          rel="nofollow"
+          target="_blank">
+          <Icon type="linkedin" size="m" className={style.socialIcon} />
+        </a>
       </li>
       <li className={style.socialItem}>
         <Link to="/" className={style.socialLink}>...</Link>
