@@ -8,6 +8,25 @@
 @custom-media --xsmall-viewport (max-width: 480px);
 @custom-media --xxsmall-viewport (max-width: 360px);
 @custom-media --xxxsmall-viewport (max-width: 320px);
-@custom-media --color-print (print and (color));
-@custom-media --monochrome-print (print and (monochrome));
+@custom-media --color-print print and (color);
+@custom-media --monochrome-print print and (monochrome);
 
+:root {
+  --layout-center: {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    perspective: 1000px;
+    position: relative;
+    min-height: 100%;
+    padding: var(--size-element-margin);
+    box-sizing: border-box;
+    z-index: 2;
+
+    &:before {
+      content: '';
+      display: block;
+    }
+  };
+}

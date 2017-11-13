@@ -1,23 +1,5 @@
 @import "../../style";
 
 .about {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  perspective: 1000px;
-  position: relative;
-  min-height: 100%;
-  padding: var(--size-element-margin);
-  box-sizing: border-box;
-  z-index: 2;
-}
-
-.about > * {
-  z-index: 1;
-}
-
-.about:before {
-  content: '';
-  display: block;
+  @apply --layout-center;
 }

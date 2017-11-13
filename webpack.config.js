@@ -89,8 +89,9 @@ var common = {
                   require('postcss-easy-import')({
                     root: srcPath
                   }),
-                  require('lost'),
-                  require('precss')(),
+                  // require('lost'),
+                  // require('precss')(),
+                  require('postcss-apply')(),
                   require('postcss-cssnext')(),
                   require('css-mqpacker')()
                 ]

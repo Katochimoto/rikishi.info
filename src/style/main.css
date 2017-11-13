@@ -1,6 +1,5 @@
 @import "./index.css";
 @import "normalize.css";
-/* @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300'); */
 
 @media (--xlarge-viewport) {.fake{color:#000;}}
 @media (--large-viewport) {.fake{color:#000;}}

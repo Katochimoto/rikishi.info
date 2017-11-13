@@ -29,6 +29,7 @@
     "img-loader": "2.0.0",
     "lost": "^8.2.0",
     "normalize.css": "^7.0.0",
+    "postcss-apply": "^0.8.0",
     "postcss-cssnext": "^3.0.2",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^2.0.8",
