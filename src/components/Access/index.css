@@ -1,0 +1,17 @@
+@import "../../style";
+
+.access {
+  @apply --layout-center;
+}
+
+.access-header {
+  color: #fff;
+}
+
+.access-back {
+  color: #fff;
+}
+
+.access-content {
+  text-align: center;
+}
