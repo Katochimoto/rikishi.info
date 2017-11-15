@@ -36,12 +36,6 @@
   font-style: normal;
 }
 
-@custom-selector :--common-font body, input, select, textarea;
-@custom-selector :--heading h1, h2, h3, h4, h5, h6;
-@custom-selector :--heading-small h3, h4, h5, h6;
-@custom-selector :--italic em, i;
-@custom-selector :--strong strong, b;
-
 :global :--common-font {
   color: var(--color-fg);
   font-family: var(--font-family);
