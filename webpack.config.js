@@ -8,6 +8,7 @@ var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var homepage = require('./package.json').homepage;
 var TARGET = process.env.npm_lifecycle_event; // start, build
@@ -24,6 +25,8 @@ var uglifyConfig = require('./config/uglify')(TARGET);
 var htmlConfig = require('./config/html')(TARGET, options);
 
 var common = {
+  context: srcPath,
+
   entry: {
     main: path.join(srcPath, 'main.js'),
     // vendor: [
@@ -59,7 +62,8 @@ var common = {
               'react'
             ],
             plugins: [
-              'transform-react-jsx-img-import'
+              'transform-react-jsx-img-import',
+              'transform-object-rest-spread'
             ]
           }
         }
@@ -189,6 +193,13 @@ var common = {
       allChunks: true
     }),
 
+    new CopyWebpackPlugin([
+      {
+        from: 'robots.txt',
+        to: distPath
+      }
+    ]),
+
     new HtmlWebpackPlugin(merge(htmlConfig, {
       chunks: ['main', 'vendor']
     })),
@@ -219,11 +230,12 @@ if (TARGET === 'build') {
       new UglifyJSPlugin(uglifyConfig),
 
       new CompressionPlugin({
-        asset: "[path].gz[query]",
-        algorithm: "gzip",
-        test: /\.js$|\.html$/,
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.js$/, // |\.html$
         threshold: 10240,
-        minRatio: 0.8
+        minRatio: 0.8,
+        deleteOriginalAssets: true
       })
     ]
   });
