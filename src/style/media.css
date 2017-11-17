@@ -1,0 +1,9 @@
+@custom-media --xlarge-viewport (max-width: 1680px);
+@custom-media --large-viewport (max-width: 1280px);
+@custom-media --medium-viewport (max-width: 960px);
+@custom-media --small-viewport (max-width: 736px);
+@custom-media --xsmall-viewport (max-width: 480px);
+@custom-media --xxsmall-viewport (max-width: 360px);
+@custom-media --xxxsmall-viewport (max-width: 320px);
+@custom-media --color-print print and (color);
+@custom-media --monochrome-print print and (monochrome);

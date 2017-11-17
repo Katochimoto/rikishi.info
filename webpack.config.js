@@ -95,7 +95,8 @@ var common = {
                   }),
                   // require('lost'),
                   // require('precss')(),
-                  require('postcss-apply')(),
+                  require('postcss-mixins')(),
+                  // require('postcss-apply')(),
                   require('postcss-cssnext')(),
                   require('css-mqpacker')()
                 ]

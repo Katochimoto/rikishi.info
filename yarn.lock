@@ -5306,7 +5306,7 @@ postcss-minify-selectors@^2.0.4:
     postcss "^5.0.14"
     postcss-selector-parser "^2.0.0"
 
-postcss-mixins@^6.0.1:
+postcss-mixins@^6.0.1, postcss-mixins@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/postcss-mixins/-/postcss-mixins-6.2.0.tgz#fa9d2c2166b2ae7745956c727ab9dd2de4b96a40"
   dependencies:

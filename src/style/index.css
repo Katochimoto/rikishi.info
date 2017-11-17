@@ -1,37 +1,4 @@
-@import "./shared/*.css";
-
-@custom-media --xlarge-viewport (max-width: 1680px);
-@custom-media --large-viewport (max-width: 1280px);
-@custom-media --medium-viewport (max-width: 960px);
-@custom-media --small-viewport (max-width: 736px);
-@custom-media --xsmall-viewport (max-width: 480px);
-@custom-media --xxsmall-viewport (max-width: 360px);
-@custom-media --xxxsmall-viewport (max-width: 320px);
-@custom-media --color-print print and (color);
-@custom-media --monochrome-print print and (monochrome);
-
-@custom-selector :--common-font body, input, select, textarea;
-@custom-selector :--heading h1, h2, h3, h4, h5, h6;
-@custom-selector :--heading-small h3, h4, h5, h6;
-@custom-selector :--italic em, i;
-@custom-selector :--strong strong, b;
-
-:root {
-  --layout-center: {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    perspective: 1000px;
-    position: relative;
-    min-height: 100%;
-    padding: var(--size-element-margin);
-    box-sizing: border-box;
-    z-index: 2;
-
-    &:before {
-      content: '';
-      display: block;
-    }
-  };
-}
+@import "./vars.css";
+@import "./media.css";
+@import "./selector.css";
+@import "./theme/**/*.css";
