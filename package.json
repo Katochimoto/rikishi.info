@@ -30,12 +30,11 @@
     "html-webpack-template": "6.0.2",
     "img-loader": "2.0.0",
     "lost": "8.2.0",
-    "normalize.css": "7.0.0",
-    "postcss-apply": "0.8.0",
     "postcss-cssnext": "3.0.2",
     "postcss-easy-import": "3.0.0",
     "postcss-loader": "2.0.8",
     "postcss-mixins": "^6.2.0",
+    "postcss-utilities": "^0.7.0",
     "precss": "2.0.0",
     "style-loader": "0.19.0",
     "uglifyjs-webpack-plugin": "1.0.1",
@@ -45,6 +44,7 @@
     "webpack-merge": "4.1.1"
   },
   "dependencies": {
+    "base64-js": "^1.2.1",
     "calendar-icons": "Katochimoto/calendar-icons.git#rikishi-info",
     "classnames": "2.2.5",
     "jsrsasign": "8.0.4",

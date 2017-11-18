@@ -97,8 +97,15 @@ var common = {
                   // require('lost'),
                   // require('precss')(),
                   require('postcss-mixins')(),
-                  // require('postcss-apply')(),
-                  require('postcss-cssnext')(),
+                  require('postcss-cssnext')({
+                    // features: {
+                    //   customProperties: {
+                    //     variables: {
+                    //       test: 'red'
+                    //     }
+                    //   }
+                    // }
+                  }),
                   require('css-mqpacker')()
                 ]
               }
