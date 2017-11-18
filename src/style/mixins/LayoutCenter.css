@@ -1,4 +1,4 @@
-@import "../../vars";
+@import "../index.css";
 
 @define-mixin LayoutCenter {
   display: flex;

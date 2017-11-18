@@ -1,0 +1,9 @@
+@media (--xlarge-viewport) {.fake{color:transparent;}}
+@media (--large-viewport) {.fake{color:transparent;}}
+@media (--medium-viewport) {.fake{color:transparent;}}
+@media (--small-viewport) {.fake{color:transparent;}}
+@media (--xsmall-viewport) {.fake{color:transparent;}}
+@media (--xxsmall-viewport) {.fake{color:transparent;}}
+@media (--xxxsmall-viewport) {.fake{color:transparent;}}
+@media (--color-print) {.fake{color:transparent;}}
+@media (--monochrome-print) {.fake{color:transparent;}}

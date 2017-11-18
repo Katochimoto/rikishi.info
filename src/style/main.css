@@ -1,40 +1,8 @@
 @charset "utf-8";
 @import "./index.css";
-/* @import "normalize.css"; */
-
-@media (--xlarge-viewport) {.fake{color:#000;}}
-@media (--large-viewport) {.fake{color:#000;}}
-@media (--medium-viewport) {.fake{color:#000;}}
-@media (--small-viewport) {.fake{color:#000;}}
-@media (--xsmall-viewport) {.fake{color:#000;}}
-@media (--xxsmall-viewport) {.fake{color:#000;}}
-@media (--xxxsmall-viewport) {.fake{color:#000;}}
-@media (--color-print) {.fake{color:#000;}}
-@media (--monochrome-print) {.fake{color:#000;}}
-
-@font-face {
-  font-family: 'Quicksand';
-  src: url('./fonts/QuicksandBook-Regular.eot');
-  src: url('./fonts/QuicksandBook-Regular.woff2') format('woff2'),
-       url('./fonts/QuicksandBook-Regular.woff') format('woff'),
-       url('./fonts/QuicksandBook-Regular.ttf') format('truetype'),
-       url('./fonts/QuicksandBook-Regular.svg#QuicksandBook-Regular') format('svg'),
-       url('./fonts/QuicksandBook-Regular.eot?#iefix') format('embedded-opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Quicksand';
-  src: url('./fonts/QuicksandLight-Regular.eot');
-  src: url('./fonts/QuicksandLight-Regular.woff2') format('woff2'),
-       url('./fonts/QuicksandLight-Regular.woff') format('woff'),
-       url('./fonts/QuicksandLight-Regular.ttf') format('truetype'),
-       url('./fonts/QuicksandLight-Regular.svg#QuicksandLight-Regular') format('svg'),
-       url('./fonts/QuicksandLight-Regular.eot?#iefix') format('embedded-opentype');
-  font-weight: 300;
-  font-style: normal;
-}
+@import "./font.css";
+@import "./media.css";
+@import "./components/*.css";
 
 :global :--common-font {
   color: var(--color-fg);
@@ -146,68 +114,4 @@
 
 :global a:hover {
   color: var(--color-highlight);
-}
-
-
-
-
-
-
-
-:global html {
-  height: 100%;
-}
-
-:global body {
-  height: 100%;
-  margin: 0;
-  background-color: var(--color-bg);
-  background-image:
-    url('../images/overlay.png'),
-    linear-gradient(60deg, color(var(--color-accent1) alpha(50%)) 5%, color(var(--color-accent2) alpha(35%))),
-    url('../images/bg.jpg');
-  background-repeat:		repeat,			no-repeat,			no-repeat;
-  background-size:		100px 100px,	cover,				cover;
-  background-position:	top left,		center center,		bottom center;
-  background-attachment:	fixed,			fixed,				fixed;
-
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
-  /* -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased; */
-  -webkit-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
-}
-
-:global body:after {
-  content: '';
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: inherit;
-  opacity: 1;
-  z-index: 1;
-
-  background-color: var(--color-bg);
-  background-image:
-    url('../images/overlay.png'),
-    linear-gradient(60deg, color(var(--color-accent1) alpha(50%)) 5%, color(var(--color-accent2) alpha(35%)));
-  background-repeat:		repeat,			no-repeat;
-  background-size:		100px 100px,	cover;
-  background-position:	top left,		center center;
-  transition: opacity var(--duration-bg) ease-out;
-}
-
-/* :global body.is-loading:after {
-  opacity: 1;
-} */
-
-:global body.is-loaded:after {
-  opacity: 0;
-}
-
-:global #app {
-  height: 100%;
 }

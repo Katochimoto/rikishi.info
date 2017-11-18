@@ -91,7 +91,8 @@ var common = {
                 sourceMap: false,
                 plugins: [
                   require('postcss-easy-import')({
-                    root: srcPath
+                    root: srcPath,
+                    prefix: '_'
                   }),
                   // require('lost'),
                   // require('precss')(),
