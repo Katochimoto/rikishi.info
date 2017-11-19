@@ -28,6 +28,10 @@ module.exports = function (env, options) {
       {
         rel: 'preconnect',
         href: 'https://www.google-analytics.com'
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://s.gravatar.com'
       }
     ]
   };
@@ -58,7 +62,7 @@ function meta (options) {
       'http-equiv': 'Content-Security-Policy',
       content:
         "default-src 'self';" +
-        "img-src 'self' data:;" +
+        "img-src 'self' https://s.gravatar.com data:;" +
         "font-src 'self' data:;" +
         "object-src 'none';" +
         "child-src 'none';" +

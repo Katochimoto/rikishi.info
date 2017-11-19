@@ -5,154 +5,88 @@ var path = require('path');
 var openpgp = require('openpgp');
 var base64js = require('base64-js');
 
-var pubkey = fs.readFileSync(path.join(__dirname, 'pubkey.asc'), 'utf-8');
-var privkey = fs.readFileSync(path.join(__dirname, 'private.asc'), 'utf-8');
+var data = require('./.info.js')();
+var passphrase = '';
+var password = '';
+var email = 'anton@rikishi.info';
 
+data = JSON.stringify(data);
 
+run(data, password, email, passphrase);
 
-var options = {
-    data: 'Hello, World!',
-    passwords: ['secret stuff'],
-    armor: false
-};
+async function run (data, password, email, passphrase) {
+  var encrypted = await encrypt(data, password);
+  var privkey = await getPrivkey();
+  var signed = await sign(encrypted, privkey, passphrase);
 
-openpgp.encrypt(options).then(function(ciphertext) {
-    var encrypted = ciphertext.message.packets.write();
-    encrypted = base64js.fromByteArray(encrypted);
-    //var encrypted = ciphertext.data;
-    console.log(encrypted);
+  var pubkey = await getPubkey(email);
+  encrypted = await verify(signed, pubkey);
+  data = await decrypt(encrypted, password);
 
-    var hkp = new openpgp.HKP('https://pgp.mit.edu');
-
-    var options = {
-        query: 'bufpost@yandex.ru'
-    };
-
-    hkp.lookup(options).then(function(key) {
-        var pubkey = openpgp.key.readArmored(key);
-        var passphrase = '';
-        var privkey = fs.readFileSync(path.join(__dirname, 'private.asc'), 'utf-8');
-
-        var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-        privKeyObj.decrypt(passphrase);
-
-        var options = {
-            data: encrypted,
-            privateKeys: privKeyObj
-        };
-
-        openpgp.sign(options).then(function(signed) {
-            cleartext = signed.data;
-
-            console.log(cleartext);
-
-            var message = openpgp.cleartext.readArmored(cleartext);
-
-            var options = {
-                message: message,
-                publicKeys: pubkey.keys
-            };
-
-            openpgp.verify(options).then(function(verified) {
-              validity = verified.signatures[0].valid; // true
-              if (validity) {
-                console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
-
-                var encrypted = base64js.toByteArray(message.text);
-
-
-                    options = {
-                        message: openpgp.message.read(encrypted), // parse encrypted bytes
-                        password: 'secret stuff',                 // decrypt with password
-                        //format: 'binary'                          // output as Uint8Array
-                    };
-
-                    openpgp.decrypt(options).then(function(plaintext) {
-                        console.log(plaintext.data);
-                    });
-              }
-            });
-        });
-    });
-});
-
-
-
-
-// var hkp = new openpgp.HKP('https://pgp.mit.edu');
-
-// var options = {
-//     query: 'bufpost@yandex.ru'
-// };
-
-// hkp.lookup(options).then(function(key) {
-//     var pubkey = openpgp.key.readArmored(key);
-//     var passphrase = 'no pain no gain';
-//     var privkey = fs.readFileSync(path.join(__dirname, 'private.asc'), 'utf-8');
-
-//     var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-//     privKeyObj.decrypt(passphrase);
-
-//     var options = {
-//         data: 'Hello, World!',
-//         privateKeys: privKeyObj
-//     };
-
-//     openpgp.sign(options).then(function(signed) {
-//         cleartext = signed.data;
-
-//         console.log(cleartext);
-
-//         var options = {
-//             message: openpgp.cleartext.readArmored(cleartext),
-//             publicKeys: pubkey.keys
-//         };
-
-//         openpgp.verify(options).then(function(verified) {
-//           validity = verified.signatures[0].valid; // true
-//           if (validity) {
-//             console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
-//           }
-//         });
-//     });
-
-
-//     // var options = {
-//     //     data: 'Hello, World!',
-//     //     publicKeys: pubkey.keys,
-//     //     privateKeys: privKeyObj
-//     // };
-
-//     // openpgp.encrypt(options).then(function(ciphertext) {
-//     //     var encrypted = ciphertext.data;
-//     //     //console.log('encrypted', encrypted);
-
-//     //     var options = {
-//     //         message: openpgp.message.readArmored(encrypted),     // parse armored message
-//     //         publicKeys: pubkey.keys,    // for verification (optional)
-//     //         privateKey: privKeyObj // for decryption
-//     //     };
-
-//     //     openpgp.decrypt(options).then(function(plaintext) {
-//     //         //console.log(plaintext.data)
-//     //         return plaintext.data; // 'Hello, World!'
-//     //     });
-//     // });
-// });
-
-
-function uintToString(uintArray) {
-  var encodedString = String.fromCharCode.apply(null, uintArray),
-      decodedString = decodeURIComponent(escape(encodedString));
-  return decodedString;
+  return data;
 }
 
-function b64EncodeUnicode(str) {
-  // first we use encodeURIComponent to get percent-encoded UTF-8,
-  // then we convert the percent encodings into raw bytes which
-  // can be fed into btoa.
-  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-      function toSolidBytes(match, p1) {
-          return String.fromCharCode('0x' + p1);
-  }));
+async function encrypt (data, password) {
+  var ciphertext = await openpgp.encrypt({
+    armor: false,
+    data: data,
+    passwords: [
+      password
+    ]
+  });
+
+  var encrypted = ciphertext.message.packets.write();
+  encrypted = base64js.fromByteArray(encrypted);
+
+  return encrypted;
+}
+
+async function getPubkey (email) {
+  // var hkp = new openpgp.HKP('https://pgp.mit.edu');
+  // return await hkp.lookup({ query: email });
+  return await fs.readFileSync(path.join(__dirname, 'public.asc'), 'utf8');
+}
+
+async function getPrivkey () {
+  return await fs.readFileSync(path.join(__dirname, 'private.asc'), 'utf8');
+}
+
+async function sign (data, privkey, passphrase) {
+  var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
+  privKeyObj.decrypt(passphrase);
+
+  var signed = await openpgp.sign({
+    data: data,
+    privateKeys: privKeyObj
+  });
+
+  return signed.data;
+}
+
+async function verify (data, pubkey) {
+  data = openpgp.cleartext.readArmored(data);
+  pubkey = openpgp.key.readArmored(pubkey);
+
+  var verified = await openpgp.verify({
+    message: data,
+    publicKeys: pubkey.keys
+  });
+
+  var validity = verified.signatures[0].valid;
+
+  if (validity) {
+    return data.text;
+  }
+}
+
+async function decrypt (data, password) {
+  data = base64js.toByteArray(data);
+  data = openpgp.message.read(data);
+
+  var plaintext = await openpgp.decrypt({
+    message: data,
+    password: password
+  });
+
+  return plaintext.data;
 }
