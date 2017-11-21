@@ -4,5 +4,5 @@ yarn-error.log
 .idea
 .vscode
 .DS_Store
-.info.js
+.bio.json
 *.asc

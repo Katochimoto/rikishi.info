@@ -4,26 +4,43 @@ var fs = require('fs');
 var path = require('path');
 var openpgp = require('openpgp');
 var base64js = require('base64-js');
+var minimist = require('minimist');
 
-var data = require('./.info.js')();
-var passphrase = '';
-var password = '';
-var email = 'anton@rikishi.info';
+var options = minimist(process.argv.slice(2), {
+  string: [
+    'i',
+    'e',
+    'p',
+    'pp'
+  ],
+  default: {
+    i: '.bio.json',
+    e: '',
+    p: '',
+    pp: ''
+  }
+});
 
+var passphrase = options.pp;
+var password = options.p;
+var email = options.e;
+var data = require(path.join(process.cwd(), options.i));
 data = JSON.stringify(data);
 
-run(data, password, email, passphrase);
+run(data, password, email, passphrase).then(function (data) {
+  console.log(data);
+});
 
 async function run (data, password, email, passphrase) {
   var encrypted = await encrypt(data, password);
   var privkey = await getPrivkey();
   var signed = await sign(encrypted, privkey, passphrase);
 
-  var pubkey = await getPubkey(email);
-  encrypted = await verify(signed, pubkey);
-  data = await decrypt(encrypted, password);
+  // var pubkey = await getPubkey(email);
+  // encrypted = await verify(signed, pubkey);
+  // data = await decrypt(encrypted, password);
 
-  return data;
+  return signed;
 }
 
 async function encrypt (data, password) {
