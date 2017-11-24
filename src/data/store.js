@@ -1,7 +1,7 @@
 import { ReduceStore } from 'flux/utils';
 import { isFSA } from 'flux-standard-action';
 import dispatcher from './dispatcher';
-import userpic from './images/avatar.jpg';
+import userpic from '../images/avatar.jpg';
 
 class BioStore extends ReduceStore {
   getInitialState () {

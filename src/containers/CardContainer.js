@@ -1,5 +1,5 @@
 import { Container } from 'flux/utils';
-import bioStore from '../store';
+import bioStore from '../data/store';
 import Card from '../components/Card';
 
 function getStores () {
@@ -9,25 +9,12 @@ function getStores () {
 }
 
 function getState () {
-  const {
-    facebook,
-    github,
-    linkedin,
-    nickname,
-    role,
-    userpic,
-  } = bioStore.getState();
-
+  const bio = bioStore.getState();
   const hasAccess = bioStore.hasAccess();
 
   return {
-    facebook,
-    github,
+    bio,
     hasAccess,
-    linkedin,
-    nickname,
-    role,
-    userpic,
   };
 }
 
