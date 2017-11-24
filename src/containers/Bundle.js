@@ -1,5 +1,4 @@
 import React from 'react'
-import { setTimeout } from 'core-js/library/web/timers';
 
 export default class Bundle extends React.Component {
   constructor (...attrs) {

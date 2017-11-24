@@ -3,16 +3,30 @@ import Social from '../Social';
 
 import style from './index.css';
 
-export default function Card () {
+export default function Card ({
+  facebook,
+  github,
+  hasAccess,
+  linkedin,
+  nickname,
+  role,
+  userpic,
+}) {
+
+
   return (
     <section className={style.card}>
       <header>
-        <Avatar />
-        <h1>Rikishi</h1>
-        <p>Web Developer</p>
+        <Avatar src={userpic} alt={nickname} />
+        <h1>{nickname}</h1>
+        <p>{role}</p>
       </header>
       <footer>
-        <Social />
+        <Social
+          hasAccess={hasAccess}
+          facebook={facebook}
+          github={github}
+          linkedin={linkedin} />
       </footer>
     </section>
   );

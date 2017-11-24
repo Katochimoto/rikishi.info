@@ -1172,9 +1172,9 @@ cacache@^10.0.0:
     unique-filename "^1.1.0"
     y18n "^3.2.1"
 
-calendar-icons@Katochimoto/calendar-icons.git#rikishi-info:
+"calendar-icons@https://github.com/Katochimoto/calendar-icons.git#rikishi-info":
   version "0.0.1"
-  resolved "https://codeload.github.com/Katochimoto/calendar-icons/tar.gz/dfb80def0f5ef6d7a4ac0d04319e80685966f40c"
+  resolved "https://github.com/Katochimoto/calendar-icons.git#30abf594e94dc2a5058d81bb8f4e00d4052134b3"
 
 camel-case@3.0.x:
   version "3.0.0"
