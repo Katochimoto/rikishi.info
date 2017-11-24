@@ -206,6 +206,10 @@ var common = {
       {
         from: 'robots.txt',
         to: distPath
+      },
+      {
+        from: 'sitemap.xml',
+        to: distPath
       }
     ]),
 
