@@ -16,7 +16,7 @@ export default function Social ({
       {linkedin ? item({ href: linkedin, title: 'Linkedin', type: 'linkedin' }) : null}
       {hasAccess ? (
         <li className={style.socialItem}>
-          <Link to="/about" className={style.socialLink}>
+          <Link to="/bio" className={style.socialLink}>
             <Icon type="v-card" size="m" className={style.socialIcon} />
           </Link>
         </li>

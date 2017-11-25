@@ -1,0 +1,41 @@
+@import "../../style";
+
+.bio {
+  position: relative;
+  max-width: 24em;
+  min-width: 21em;
+  padding: 4.5em 3em 3em 3em;
+
+  background: var(--color-bg);
+  border-radius: var(--size-border-radius);
+  cursor: default;
+
+  text-align: center;
+
+  opacity: 0.95;
+  transform-origin: 50% 50%;
+}
+
+.bio-content {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.bio-list {
+  text-align: left;
+  text-transform: initial;
+  letter-spacing: 0;
+  line-height: 1.5em;
+}
+
+.bio-list-head {
+  font-weight: 400;
+}
+
+.bio-list-item {
+  margin-left: 1em;
+}
+
+.bio-list-item + .bio-list-head {
+  margin-top: 0.2em;
+}

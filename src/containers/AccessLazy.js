@@ -1,29 +1,48 @@
-import Bundle from './Bundle';
-import Loading from '../components/Loading';
+import Bundle from './Bundle'
+import { readBioByToken, getToken } from '../data/services'
+import Loading from '../components/Loading'
 import loadAccess from 'bundle-loader?lazy!../components/Access'
 
-// require.ensure([], (require) => {
-  //   var jwt = require('openpgp');
-  //   console.log('>>>2', jwt);
-  // });
+export default function AccessLazy (props) {
 
-// if (match.path === '/about') {
-  //   console.log('>>>1');
+  function onLoadSuccess (Access) {
+    if (!Access) {
+      return (
+        <Loading />
+      )
+    }
 
-  //   require.ensure([], (require) => {
-  //     var jwt = require('jsrsasign');
-  //     console.log('>>>2', jwt);
-  //   });
-  // }
+    const {
+      history,
+      match: { params: { token } }
+    } = props
 
-export default function AccessLazy (...props) {
+    const fromLocation = props.location &&
+      props.location.state &&
+      props.location.state['from'] || '/'
+
+    const localToken = getToken()
+
+    if (token || localToken) {
+      readBioByToken(token || localToken)
+        .then(
+          () => history.replace(fromLocation),
+          () => history.replace('/access')
+        )
+
+      return (
+        <Loading />
+      )
+    }
+
+    return (
+      <Access {...props} />
+    )
+  }
+
   return (
     <Bundle load={loadAccess}>
-      {(Access) => (
-        Access ?
-          <Access {...props} /> :
-          <Loading />
-      )}
+      {onLoadSuccess}
     </Bundle>
-  );
+  )
 }

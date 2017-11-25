@@ -1,7 +1,7 @@
-import { ReduceStore } from 'flux/utils';
-import { isFSA } from 'flux-standard-action';
-import dispatcher from './dispatcher';
-import userpic from '../images/avatar.jpg';
+import { ReduceStore } from 'flux/utils'
+import { isFSA } from 'flux-standard-action'
+import dispatcher from './dispatcher'
+import userpic from '../images/avatar.jpg'
 
 class BioStore extends ReduceStore {
   getInitialState () {
@@ -17,26 +17,28 @@ class BioStore extends ReduceStore {
   }
 
   hasAccess () {
-    const { access } = this.getState();
-    return access === 'private';
+    const { access } = this.getState()
+    return access === 'private'
   }
 
   reduce (state, action) {
     if (!isFSA(action)) {
-      return state;
+      return state
     }
 
     const {
       error,
       payload,
       type,
-    } = action;
+    } = action
 
     switch (type) {
+      case 'UPDATE_BIO':
+        return { ...state, ...payload, access: 'private' }
       default:
-        return state;
+        return state
     }
   }
 }
 
-export default new BioStore(dispatcher);
+export default new BioStore(dispatcher)

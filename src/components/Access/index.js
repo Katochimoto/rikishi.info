@@ -4,7 +4,6 @@ import Footer from '../Footer';
 import style from './index.css';
 
 export default function Access () {
-
   return (
     <div className={style.access}>
       <div className={style.accessContent}>

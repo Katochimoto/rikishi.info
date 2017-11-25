@@ -125,6 +125,13 @@ var common = {
           'url-loader?limit=10000',
           'img-loader'
         ]
+      },
+
+      {
+        test: /\.(txt)$/i,
+        use: [
+          'raw-loader'
+        ]
       }
     ]
   },

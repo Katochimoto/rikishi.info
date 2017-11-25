@@ -1,6 +1,6 @@
 import { Container } from 'flux/utils'
 import bioStore from '../data/store'
-import Card from '../components/Card'
+import Bio from '../components/Bio'
 
 function getStores () {
   return [
@@ -10,12 +10,10 @@ function getStores () {
 
 function getState () {
   const bio = bioStore.getState()
-  const hasAccess = bioStore.hasAccess()
 
   return {
     bio,
-    hasAccess,
   }
 }
 
-export default Container.createFunctional(Card, getStores, getState)
+export default Container.createFunctional(Bio, getStores, getState)

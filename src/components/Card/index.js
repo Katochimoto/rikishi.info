@@ -1,7 +1,7 @@
-import Avatar from '../Avatar';
-import Social from '../Social';
+import Avatar from '../Avatar'
+import Social from '../Social'
 
-import style from './index.css';
+import style from './index.css'
 
 export default function Card ({
   bio,
@@ -22,5 +22,5 @@ export default function Card ({
           linkedin={bio.linkedin} />
       </footer>
     </section>
-  );
+  )
 }
