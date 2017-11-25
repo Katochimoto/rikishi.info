@@ -1,12 +1,29 @@
-import style from './index.css';
+import classnames from 'classnames'
+import style from './index.css'
 
-export default function Avatar ({ src, alt }) {
+const SIZES = {
+  l: 150,
+  m: 100,
+  s: 50,
+}
+
+export default function Avatar ({
+  src,
+  alt,
+  className,
+  size = 'l',
+}) {
+  const classes = classnames({
+    [ style.avatar ]: true,
+    [ className ]: Boolean(className),
+  })
+
   return (
-    <span className={style.avatar}>
+    <span className={classes}>
       <img src={src}
         alt={alt}
-        width="150"
-        height="150" />
+        width={SIZES[size]}
+        height={SIZES[size]} />
     </span>
-  );
+  )
 }

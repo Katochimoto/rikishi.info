@@ -17,9 +17,33 @@
   /* transform: rotateY(90deg); */
 }
 
+.bio-head {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  margin: -3em -3em 2em -3em;
+  padding: 3em 3em 2em 3em;
+  line-height: 2em;
+  justify-content: space-between;
+}
+
+.bio-name {
+  font-size: 13pt;
+  text-align: right;
+  margin: 0;
+
+  @media (--xsmall-viewport) {
+    font-size: 11pt;
+  }
+}
+
+.bio-role {
+  margin: 0;
+  text-align: right;
+}
+
 .bio-content {
-  max-height: 200px;
-  overflow: hidden;
+  /* max-height: 200px;
+  overflow: hidden; */
 }
 
 .bio-list {

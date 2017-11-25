@@ -26,3 +26,20 @@
     opacity: 0.95;
   }
 }
+
+.card-avatar {
+  margin-bottom: var(--size-element-margin);
+  position: relative;
+}
+
+.card-avatar:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: -3em;
+  width: calc(100% + 6em);
+  height: var(--size-border-width);
+  z-index: -1;
+  background: var(--color-border);
+}

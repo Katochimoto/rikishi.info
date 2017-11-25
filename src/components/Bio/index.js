@@ -7,15 +7,24 @@ export default function Bio ({
   bio,
   hasAccess,
 }) {
+
+  const socialItems = [
+    { href: bio.facebook, title: 'Facebook', type: 'facebook' },
+    { href: bio.github, title: 'GitHub', type: 'github' },
+    { href: bio.linkedin, title: 'Linkedin', type: 'linkedin' },
+  ];
+
   return (
     <section className={style.bio}>
-      <header>
+      <header className={style.bioHead}>
         <Avatar
+          size="m"
           src={bio.userpic}
           alt={bio.nickname} />
-
-        <h1>{bio.fullname}</h1>
-        <p>{bio.role}</p>
+        <div>
+          <h1 className={style.bioName}>{bio.fullname}</h1>
+          <p className={style.bioRole}>{bio.role}</p>
+        </div>
       </header>
       <footer className={style.bioContent}>
         <dl className={style.bioList}>
@@ -36,6 +45,7 @@ export default function Bio ({
             <a href={`icq:${bio.icq}`} target="_blank">{bio.icq}</a>
           </dd>
         </dl>
+        <Social items={socialItems} size="s" circle={false} />
       </footer>
     </section>
   )

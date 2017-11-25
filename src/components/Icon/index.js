@@ -1,5 +1,5 @@
-import classnames from 'classnames';
-import styles from './index.css';
+import classnames from 'classnames'
+import style from './index.css'
 
 export default function Icon ({
   className,
@@ -7,25 +7,25 @@ export default function Icon ({
   size = 's',
   type,
 } = {}) {
-  const typeClass = `icon-${type}`;
-  const sizeClass = `icon_size_${size}`;
+  const typeClass = `icon-${type}`
+  const sizeClass = `icon_size_${size}`
   const classes = classnames({
-    [ styles.icon ]: true,
-    [ styles[ typeClass ] ]: Boolean(styles[ typeClass ]),
-    [ styles[ sizeClass ] ]: Boolean(styles[ sizeClass ]),
+    [ style.icon ]: true,
+    [ style[ typeClass ] ]: Boolean(style[ typeClass ]),
+    [ style[ sizeClass ] ]: Boolean(style[ sizeClass ]),
     [ className ]: Boolean(className)
-  });
+  })
 
-  const style = {};
+  const cssStyle = {}
 
   if (color) {
-    style.color = color;
+    cssStyle.color = color
   }
 
   return (
-    <svg xmlns="https://www.w3.org/2000/svg" className={classes} style={style}>
+    <svg xmlns="https://www.w3.org/2000/svg" className={classes} style={cssStyle}>
       <use href={`#icon-${type}`}></use>
       <rect height="100%" width="100%" style={{ fill: 'transparent' }}></rect>
     </svg>
-  );
+  )
 }

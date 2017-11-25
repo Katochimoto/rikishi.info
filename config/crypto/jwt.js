@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var rs = require('jsrsasign');
-var base64js = require('base64-js');
 var minimist = require('minimist');
 
 var options = minimist(process.argv.slice(2), {
