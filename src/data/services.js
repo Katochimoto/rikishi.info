@@ -1,20 +1,20 @@
 import { updateBio } from './actions'
 
-export const saveToken = (token) => {
+const saveToken = (token) => {
   try {
     window.localStorage.setItem('token', token)
+  } catch (error) {}
+}
+
+const removeToken = () => {
+  try {
+    window.localStorage.removeItem('token')
   } catch (error) {}
 }
 
 export const getToken = () => {
   try {
     return window.localStorage.getItem('token')
-  } catch (error) {}
-}
-
-export const removeToken = () => {
-  try {
-    window.localStorage.removeItem('token')
   } catch (error) {}
 }
 
@@ -27,7 +27,7 @@ export function readBioByToken (token) {
     }, removeToken)
 }
 
-export function readToken (token) {
+function readToken (token) {
   return new Promise(function (resolve, reject) {
     require.ensure([], require => {
       const rs = require('jsrsasign')
@@ -52,7 +52,7 @@ export function readToken (token) {
   })
 }
 
-export function readBio ({ email, pass }) {
+function readBio ({ email, pass }) {
   return new Promise(function (resolve, reject) {
     require.ensure([], require => {
       const openpgp = require('openpgp')

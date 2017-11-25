@@ -34,7 +34,11 @@ class BioStore extends ReduceStore {
 
     switch (type) {
       case 'UPDATE_BIO':
-        return { ...state, ...payload, access: 'private' }
+        return {
+          ...state,
+          ...payload,
+          access: 'private'
+        }
       default:
         return state
     }

@@ -4,7 +4,7 @@
   position: relative;
   max-width: 24em;
   min-width: 21em;
-  padding: 4.5em 3em 3em 3em;
+  padding: 3em;
 
   background: var(--color-bg);
   border-radius: var(--size-border-radius);
@@ -14,6 +14,7 @@
 
   opacity: 0.95;
   transform-origin: 50% 50%;
+  /* transform: rotateY(90deg); */
 }
 
 .bio-content {
@@ -26,6 +27,7 @@
   text-transform: initial;
   letter-spacing: 0;
   line-height: 1.5em;
+  margin: 0;
 }
 
 .bio-list-head {

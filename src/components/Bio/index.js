@@ -10,7 +10,10 @@ export default function Bio ({
   return (
     <section className={style.bio}>
       <header>
-        <Avatar src={bio.userpic} alt={bio.nickname} />
+        <Avatar
+          src={bio.userpic}
+          alt={bio.nickname} />
+
         <h1>{bio.fullname}</h1>
         <p>{bio.role}</p>
       </header>
