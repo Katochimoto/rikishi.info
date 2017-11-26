@@ -11,7 +11,9 @@ export default function Social ({
 }) {
   return (
     <ul className={style.social}>
-      {items.map(item => mapIterate(item, { size, circle }))}
+      {items
+        .filter(item => Boolean(item.href))
+        .map(item => mapIterate(item, { size, circle }))}
     </ul>
   )
 }

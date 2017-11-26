@@ -26,9 +26,12 @@
   justify-content: space-between;
 }
 
+.bio-about {
+  text-align: right;
+}
+
 .bio-name {
   font-size: 13pt;
-  text-align: right;
   margin: 0;
 
   @media (--xsmall-viewport) {
@@ -38,20 +41,25 @@
 
 .bio-role {
   margin: 0;
-  text-align: right;
 }
 
-.bio-content {
-  /* max-height: 200px;
-  overflow: hidden; */
+.bio-personal {
+  text-transform: initial;
+  margin-top: 0.5em;
+  display: inline-block;
+}
+
+.bio-personal + .bio-personal {
+  margin-left: 0.5em;
 }
 
 .bio-list {
   text-align: left;
   text-transform: initial;
-  letter-spacing: 0;
+  font-size: 11pt;
   line-height: 1.5em;
   margin: 0;
+  margin-bottom: 1em;
 }
 
 .bio-list-head {
@@ -64,4 +72,13 @@
 
 .bio-list-item + .bio-list-head {
   margin-top: 0.2em;
+}
+
+.bio-external {
+  float: right;
+  color: var(--color-fg-light);
+}
+
+.bio-external + .bio-external {
+  margin-right: 0.5em;
 }

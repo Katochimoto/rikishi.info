@@ -1,5 +1,7 @@
 import { updateBio } from './actions'
 
+const CACHE_READ_BIO = {}
+
 const saveToken = (token) => {
   try {
     window.localStorage.setItem('token', token)
@@ -19,12 +21,24 @@ export const getToken = () => {
 }
 
 export function readBioByToken (token) {
-  return readToken(token)
-    .then(readBio)
-    .then(data => {
-      saveToken(token)
-      updateBio(data)
-    }, removeToken)
+  let request = CACHE_READ_BIO[ token ]
+
+  if (!request) {
+    request = readToken(token)
+      .then(readBio)
+      .then(data => {
+        saveToken(token)
+        updateBio(data)
+        delete CACHE_READ_BIO[ token ]
+      }, () => {
+        removeToken()
+        delete CACHE_READ_BIO[ token ]
+      })
+
+    CACHE_READ_BIO[ token ] = request
+  }
+
+  return request
 }
 
 function readToken (token) {
