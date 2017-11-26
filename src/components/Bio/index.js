@@ -36,9 +36,9 @@ export default function Bio ({
           <h1 className={style.bioName}>{bio.fullname}</h1>
           <p className={style.bioRole}>{bio.role}</p>
 
-          <a href="#" className={style.bioPersonal}>CV</a>
-          <a href="#" className={style.bioPersonal}>vCard</a>
-          <a href="#" className={style.bioPersonal}>RSS</a>
+          <a href={bio.cv} className={style.bioPersonal} target="_blank">CV</a>
+          <a href={bio.vcard} className={style.bioPersonal} target="_blank">vCard</a>
+          <a href="/rss.xml" className={style.bioPersonal} target="_blank">RSS</a>
         </div>
       </header>
       <footer className={style.bioContent}>

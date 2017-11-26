@@ -217,6 +217,10 @@ var common = {
       {
         from: 'sitemap.xml',
         to: distPath
+      },
+      {
+        from: 'rss.xml',
+        to: distPath
       }
     ]),
 
