@@ -9,6 +9,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var homepage = require('./package.json').homepage;
 var TARGET = process.env.npm_lifecycle_event; // start, build
@@ -28,18 +29,7 @@ var common = {
   context: srcPath,
 
   entry: {
-    main: path.join(srcPath, 'main.js'),
-    // vendor: [
-    //   'react',
-    //   'react-dom',
-    //   'react-router-dom'
-    // ],
-    // jwt: [
-    //   'jsrsasign'
-    // ],
-    // pgp: [
-    //   'openpgp'
-    // ]
+    main: path.join(srcPath, 'main.js')
   },
 
   output: {
@@ -58,7 +48,10 @@ var common = {
           loader: 'babel-loader',
           options: {
             presets: [
-              'env',
+              ['env', {
+                loose: true,
+                modules: false
+              }],
               'react'
             ],
             plugins: [
@@ -143,6 +136,15 @@ var common = {
       verbose: true
     }),
 
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
+    }),
+
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+
     new webpack.NoEmitOnErrorsPlugin(),
 
     new webpack.DefinePlugin(defineConfig),
@@ -157,22 +159,13 @@ var common = {
       children: true
     }),
 
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    //   minChunks: Infinity
-    // }),
-
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'jwt',
-    //   async: true,
-    //   minChunks: Infinity
-    // }),
-
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'pgp',
-    //   async: true,
-    //   minChunks: Infinity
-    // }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module, count) {
+        var context = module.context;
+        return context && context.indexOf('node_modules') !== -1;
+      }
+    }),
 
     new webpack.HashedModuleIdsPlugin({
       hashFunction: 'sha256',
@@ -251,16 +244,16 @@ if (TARGET === 'build') {
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
 
-      new UglifyJSPlugin(uglifyConfig),
+      new UglifyJSPlugin(uglifyConfig)
 
-      new CompressionPlugin({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: /\.js$/, // |\.html$
-        threshold: 10240,
-        minRatio: 0.8,
-        deleteOriginalAssets: true
-      })
+      // new CompressionPlugin({
+      //   asset: '[path].gz[query]',
+      //   algorithm: 'gzip',
+      //   test: /\.js$/, // |\.html$
+      //   threshold: 10240,
+      //   minRatio: 0.8,
+      //   deleteOriginalAssets: true
+      // })
     ]
   });
 }

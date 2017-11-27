@@ -72,9 +72,8 @@ function readBio ({ email, pass }) {
       const openpgp = require('openpgp')
       const base64js = require('base64-js')
       const data = require('../bio.txt')
-      const hkp = new openpgp.HKP('https://pgp.mit.edu')
 
-      hkp.lookup({ query: email })
+      pubkeyRequest(email, { openpgp })
         .then(pubkey => verify(data, pubkey, { openpgp }))
         .then(encrypted => decrypt(encrypted, pass, { openpgp, base64js }))
         .then(resolve, reject)
@@ -118,4 +117,29 @@ function decrypt (data, pass, { openpgp, base64js }) {
       }
     }, reject)
   })
+}
+
+function pubkeyRequest (email, { openpgp }) {
+  const localKey = `pub__${email}`
+  let request
+
+  try {
+    const pubkey = window.localStorage.getItem(localKey)
+    if (pubkey) {
+      request = Promise.resolve(pubkey)
+    }
+  } catch (error) {}
+
+  if (!request) {
+    request = new openpgp.HKP('https://pgp.mit.edu').lookup({
+      query: email
+    }).then(pubkey => {
+      try {
+        window.localStorage.setItem(localKey, pubkey)
+      } catch (error) {}
+      return pubkey
+    })
+  }
+
+  return request
 }
