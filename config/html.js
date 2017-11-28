@@ -40,15 +40,15 @@ module.exports = function (env, options) {
     config.hash = false;
     config.baseHref = options.homepage;
 
-    config.minify = {
-      minimize: true,
-      removeComments: true,
-      collapseWhitespace: true,
-      minifyCSS: true,
-      minifyJS: true,
-      removeScriptTypeAttributes: true,
-      removeStyleTypeAttributes: true
-    };
+    // config.minify = {
+    //   minimize: true,
+    //   removeComments: true,
+    //   collapseWhitespace: true,
+    //   minifyCSS: true,
+    //   minifyJS: true,
+    //   removeScriptTypeAttributes: true,
+    //   removeStyleTypeAttributes: true
+    // };
 
     config.meta = meta(options);
   }
@@ -95,14 +95,6 @@ function meta (options) {
     {
       name: 'google',
       content: 'notranslate'
-    },
-    {
-      name: 'msapplication-TileColor',
-      content: '#ffffff'
-    },
-    {
-      name: 'msapplication-TileImage',
-      content: '/ms-icon-144x144.png'
     },
     {
       name: 'theme-color',

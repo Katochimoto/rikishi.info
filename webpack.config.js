@@ -7,6 +7,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+var WebpackPwaManifest = require('webpack-pwa-manifest');
 var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -15,6 +16,7 @@ var homepage = require('./package.json').homepage;
 var TARGET = process.env.npm_lifecycle_event; // start, build
 var srcPath = path.join(__dirname, 'src');
 var distPath = path.join(__dirname, 'dist');
+var outputPath = path.join(distPath, 'assets');
 
 var options = {
   homepage: homepage,
@@ -33,7 +35,7 @@ var common = {
   },
 
   output: {
-    path: path.join(distPath, 'assets'),
+    path: outputPath,
     publicPath: '/assets/',
     filename: '[name].[chunkhash].js',
     chunkFilename: 'chunk.[chunkhash].js' // chunk.[id].[chunkhash:8].js
@@ -109,14 +111,31 @@ var common = {
 
       {
         test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
-		    loader: 'file-loader'
+		    use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[hash:8].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
       },
 
       {
         test: /\.(jpe?g|png|gif)$/i,
         use: [
-          'url-loader?limit=10000',
-          'img-loader'
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: '[hash:8].[ext]',
+              outputPath: 'images/'
+            }
+          },
+          {
+            loader: 'img-loader'
+          }
         ]
       },
 
@@ -173,28 +192,43 @@ var common = {
       hashDigestLength: 20
     }),
 
-    // new FaviconsWebpackPlugin({
-    //   logo: path.join(srcPath, 'images', 'avatar.jpg'),
-    //   prefix: 'icons-[hash]/',
-    //   emitStats: true,
-    //   statsFilename: 'iconstats-[hash].json',
-    //   persistentCache: true,
-    //   inject: true,
-    //   background: '#fff',
-    //   title: 'Rikishi',
-    //   icons: {
-    //     android: true,
-    //     appleIcon: true,
-    //     appleStartup: false,
-    //     coast: false,
-    //     favicons: true,
-    //     firefox: true,
-    //     opengraph: false,
-    //     twitter: false,
-    //     yandex: false,
-    //     windows: false
-    //   }
-    // }),
+    new WebpackPwaManifest({
+      filename: 'manifest.json',
+      name: 'Rikishi',
+      short_name: 'Rikishi',
+      description: 'Rikishi Progressive Web App!',
+      background_color: '#ffffff',
+      icons: [
+        {
+          src: path.join(srcPath, 'images', 'avatar.jpg'),
+          sizes: [96, 128, 192, 256, 384, 512],
+          destination: 'manifest/'
+        }
+      ]
+    }),
+
+    new FaviconsWebpackPlugin({
+      logo: path.join(srcPath, 'images', 'avatar.jpg'),
+      prefix: 'icons-[hash:8]/',
+      emitStats: true,
+      statsFilename: 'iconstats-[hash:8].json',
+      persistentCache: true,
+      inject: true,
+      background: '#ffffff',
+      title: 'Rikishi',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: false,
+        coast: false,
+        favicons: true,
+        firefox: true,
+        opengraph: false,
+        twitter: false,
+        windows: false,
+        yandex: false
+      }
+    }),
 
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
