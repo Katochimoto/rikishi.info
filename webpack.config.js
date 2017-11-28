@@ -196,8 +196,13 @@ var common = {
       filename: 'manifest.json',
       name: 'Rikishi',
       short_name: 'Rikishi',
-      description: 'Rikishi Progressive Web App!',
+      description: 'Rikishi contact details',
       background_color: '#ffffff',
+      display: 'browser',
+      lang: 'en-US',
+      orientation: 'any',
+      scope: '/',
+      start_url: '/?utm_source=web_app_manifest',
       icons: [
         {
           src: path.join(srcPath, 'images', 'avatar.jpg'),
@@ -210,12 +215,12 @@ var common = {
     new FaviconsWebpackPlugin({
       logo: path.join(srcPath, 'images', 'avatar.jpg'),
       prefix: 'icons-[hash:8]/',
-      emitStats: true,
-      statsFilename: 'iconstats-[hash:8].json',
+      // emitStats: true,
+      // statsFilename: 'iconstats-[hash:8].json',
       persistentCache: true,
       inject: true,
-      background: '#ffffff',
-      title: 'Rikishi',
+      // background: '#ffffff',
+      // title: 'Rikishi',
       icons: {
         android: true,
         appleIcon: true,

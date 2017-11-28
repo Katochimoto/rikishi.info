@@ -90,7 +90,7 @@ function meta (options) {
     },
     {
       name: 'description',
-      content: 'A better default template for html-webpack-plugin.'
+      content: 'Rikishi contact details'
     },
     {
       name: 'google',
