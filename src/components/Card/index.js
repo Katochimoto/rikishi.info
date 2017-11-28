@@ -7,14 +7,20 @@ export default function Card ({
   bio,
   hasAccess,
 }) {
-  const socialItems = [
-    { href: bio.facebook, title: 'Facebook', type: 'facebook' },
-    { href: bio.github, title: 'GitHub', type: 'github' },
-    { href: bio.linkedin, title: 'Linkedin', type: 'linkedin' },
-  ]
+  let socialItems = []
 
   if (hasAccess) {
-    socialItems.push({ href: '/bio', type: 'v-card' })
+    socialItems = [
+      { href: `skype:${bio.skype}`, type: 'skype', title: 'Call by Skype', target: null },
+      { href: `tel:${bio.phone}`, type: 'phone', title: 'Call by phone', target: null },
+      { href: '/bio', type: 'v-card', title: 'Extended info' },
+    ]
+  } else {
+    socialItems = [
+      { href: bio.facebook, title: 'Facebook', type: 'facebook' },
+      { href: bio.github, title: 'GitHub', type: 'github' },
+      { href: bio.linkedin, title: 'Linkedin', type: 'linkedin' },
+    ]
   }
 
   return (

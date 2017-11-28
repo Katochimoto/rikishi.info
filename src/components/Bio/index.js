@@ -16,13 +16,14 @@ export default function Bio ({
     { href: bio.linkedin, title: 'Linkedin', type: 'linkedin' },
     { href: bio.paypal, title: 'Paypal', type: 'paypal' },
     { href: bio.facebook, title: 'Facebook', type: 'facebook' },
-    { href: bio.instagram, title: 'Instagram', type: 'instagram' }
+    { href: bio.instagram, title: 'Instagram', type: 'instagram' },
   ];
 
   const socialItems2 = [
     { href: bio.pinterest, title: 'Pinterest', type: 'pinterest' },
     { href: bio.twitter, title: 'Twitter', type: 'twitter' },
-    { href: bio.google, title: 'Google+', type: 'google-plus' }
+    { href: bio.google, title: 'Google+', type: 'google-plus' },
+    { href: bio.rss, title: 'RSS', type: 'rss' },
   ];
 
   return (
@@ -38,31 +39,30 @@ export default function Bio ({
 
           <a href={bio.cv} className={style.bioPersonal} target="_blank">CV</a>
           <a href={bio.vcard} className={style.bioPersonal} target="_blank">vCard</a>
-          <a href="/rss.xml" className={style.bioPersonal} target="_blank">RSS</a>
         </div>
       </header>
       <footer className={style.bioContent}>
         <dl className={style.bioList}>
           <dt className={style.bioListHead}>Email</dt>
           <dd className={style.bioListItem}>
-            <a href={`mailto:${bio.email}`} target="_blank">{bio.email}</a>
+            <a href={`mailto:${bio.email}`}>{bio.email}</a>
             <a href={bio.pgp} target="_blank" className={style.bioExternal}>
               <Icon type="key" size="s" />
             </a>
           </dd>
           <dt className={style.bioListHead}>Phone</dt>
           <dd className={style.bioListItem}>
-            <a href={`tel:${bio.phone}`} target="_blank">{bio.phone}</a>
+            <a href={`tel:${bio.phone}`}>{bio.phone}</a>
             <Icon className={style.bioExternal} type="whatsapp" size="s" />
             <Icon className={style.bioExternal} type="viber" size="s" />
           </dd>
           <dt className={style.bioListHead}>Skype</dt>
           <dd className={style.bioListItem}>
-            <a href={`skype:${bio.skype}?add`} target="_blank">{bio.skype}</a>
+            <a href={`skype:${bio.skype}?add`}>{bio.skype}</a>
           </dd>
           <dt className={style.bioListHead}>ICQ</dt>
           <dd className={style.bioListItem}>
-            <a href={`icq:${bio.icq}`} target="_blank">{bio.icq}</a>
+            <a href={`icq:${bio.icq}`}>{bio.icq}</a>
           </dd>
         </dl>
         <Social items={socialItems1} size="s" circle={false} />

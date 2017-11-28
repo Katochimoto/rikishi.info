@@ -20,6 +20,7 @@ export default function Social ({
 
 function mapIterate ({
   href,
+  target = '_blank',
   title,
   type,
 }, {
@@ -47,7 +48,7 @@ function mapIterate ({
         title={title}
         className={classesLink}
         rel="noopener"
-        target="_blank">
+        target={target}>
         <Icon type={type} size={size} />
       </a>
     </li>

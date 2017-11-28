@@ -1198,7 +1198,7 @@ cacache@^10.0.0:
 
 "calendar-icons@https://github.com/Katochimoto/calendar-icons.git#rikishi-info":
   version "0.0.1"
-  resolved "https://github.com/Katochimoto/calendar-icons.git#0e0bf31ee4070644eb01ca3c8cd7a1a31688dcc9"
+  resolved "https://github.com/Katochimoto/calendar-icons.git#86abf5ab6fdb0a3a237959f4341e14e43db59dab"
 
 camel-case@3.0.x:
   version "3.0.0"
