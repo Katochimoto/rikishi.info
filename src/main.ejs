@@ -62,6 +62,13 @@
     </div>
     <% } %>
 
+    <noscript>
+      <div class="noscript">
+        JavaScript is disabled in your browser.
+        Please enable JavaScript in your browser or upgrade to a JavaScript-capable browser.
+      </div>
+    </noscript>
+
     <% if (htmlWebpackPlugin.options.appMountId) { %>
     <div id="<%= htmlWebpackPlugin.options.appMountId %>"></div>
     <% } %>
@@ -124,12 +131,6 @@
       type="text/javascript"
       charset="utf-8"
       async></script>
-    <script type="text/javascript">
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '<%= htmlWebpackPlugin.options.googleTag.trackingId %>');
-    </script>
     <% } %>
   </body>
 </html>

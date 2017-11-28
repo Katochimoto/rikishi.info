@@ -11,7 +11,7 @@ export default function Footer () {
         <li className={style.copyrightItem}>
           Design:
           <a href="https://html5up.net/identity"
-            rel="nofollow"
+            rel="noopener"
             target="_blank">HTML5 UP</a>
         </li>
       </ul>

@@ -46,7 +46,7 @@ function mapIterate ({
       <a href={href}
         title={title}
         className={classesLink}
-        rel="nofollow"
+        rel="noopener"
         target="_blank">
         <Icon type={type} size={size} />
       </a>

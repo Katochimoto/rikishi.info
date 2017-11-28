@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var merge = require('webpack-merge');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackPlugin = require('./config/webpack/HtmlWebpackPlugin');
 var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -11,21 +10,17 @@ var WebpackPwaManifest = require('webpack-pwa-manifest');
 var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+var package = require('./package.json');
 
-var homepage = require('./package.json').homepage;
-var TARGET = process.env.npm_lifecycle_event; // start, build
 var srcPath = path.join(__dirname, 'src');
 var distPath = path.join(__dirname, 'dist');
-var outputPath = path.join(distPath, 'assets');
-
-var options = {
-  homepage: homepage,
-  srcPath: srcPath,
-  distPath: distPath
-};
-var defineConfig = require('./config/define')(TARGET);
-var uglifyConfig = require('./config/uglify')(TARGET);
-var htmlConfig = require('./config/html')(TARGET, options);
+var NODE_ENV = process.env.npm_lifecycle_event === 'build' ?
+  'production' :
+  'development';
+var isDev = NODE_ENV === 'development';
+var homepage = isDev ? '' : package.homepage;
+var GOOGLE_TAG = package.googleTag;
 
 var common = {
   context: srcPath,
@@ -35,10 +30,10 @@ var common = {
   },
 
   output: {
-    path: outputPath,
-    publicPath: '/assets/',
+    path: distPath,
+    publicPath: homepage + '/',
     filename: '[name].[chunkhash].js',
-    chunkFilename: 'chunk.[chunkhash].js' // chunk.[id].[chunkhash:8].js
+    chunkFilename: 'chunk.[chunkhash].js'
   },
 
   module: {
@@ -46,22 +41,31 @@ var common = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['env', {
-                loose: true,
-                modules: false
-              }],
-              'react'
-            ],
-            plugins: [
-              'transform-react-jsx-img-import',
-              'transform-object-rest-spread'
-            ]
+        use: [
+          {
+            loader: 'preprocess-loader',
+            options: {
+              'NODE_ENV': NODE_ENV,
+              'GOOGLE_TAG': GOOGLE_TAG
+            }
+          },
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['env', {
+                  loose: true,
+                  modules: false
+                }],
+                'react'
+              ],
+              plugins: [
+                'transform-react-jsx-img-import',
+                'transform-object-rest-spread'
+              ]
+            }
           }
-        }
+        ]
       },
 
       {
@@ -149,35 +153,23 @@ var common = {
   },
 
   plugins: [
-    new CleanWebpackPlugin([
-      'dist'
-    ], {
-      verbose: true
-    }),
-
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static'
-    }),
-
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
-    }),
-
+    new CleanWebpackPlugin([ 'dist' ], { verbose: true }),
+    (isDev ? null : new BundleAnalyzerPlugin({ analyzerMode: 'static' })),
+    (isDev ? null : new webpack.optimize.OccurrenceOrderPlugin()),
+    new webpack.LoaderOptionsPlugin({ minimize: true, debug: false }),
     new webpack.NoEmitOnErrorsPlugin(),
-
-    new webpack.DefinePlugin(defineConfig),
-
+    new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify(NODE_ENV) },
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
+    }),
     new webpack.ProvidePlugin({
       'React': 'react',
       'ReactDOM': 'react-dom'
     }),
-
     new webpack.optimize.CommonsChunkPlugin({
       async: true,
       children: true
     }),
-
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module, count) {
@@ -185,42 +177,34 @@ var common = {
         return context && context.indexOf('node_modules') !== -1;
       }
     }),
-
     new webpack.HashedModuleIdsPlugin({
       hashFunction: 'sha256',
       hashDigest: 'hex',
       hashDigestLength: 20
     }),
-
     new WebpackPwaManifest({
       filename: 'manifest.json',
       name: 'Rikishi',
       short_name: 'Rikishi',
       description: 'Rikishi contact details',
-      background_color: '#ffffff',
-      display: 'browser',
+      background_color: 'aliceblue',
+      theme_color: 'aliceblue',
+      display: 'minimal-ui',
       lang: 'en-US',
       orientation: 'any',
       scope: '/',
       start_url: '/?utm_source=web_app_manifest',
-      icons: [
-        {
-          src: path.join(srcPath, 'images', 'avatar.jpg'),
-          sizes: [96, 128, 192, 256, 384, 512],
-          destination: 'manifest/'
-        }
-      ]
+      icons: [{
+        src: path.join(srcPath, 'images', 'avatar.jpg'),
+        sizes: [96, 128, 192, 256, 512],
+        destination: 'manifest/'
+      }]
     }),
-
     new FaviconsWebpackPlugin({
       logo: path.join(srcPath, 'images', 'avatar.jpg'),
       prefix: 'icons-[hash:8]/',
-      // emitStats: true,
-      // statsFilename: 'iconstats-[hash:8].json',
       persistentCache: true,
       inject: true,
-      // background: '#ffffff',
-      // title: 'Rikishi',
       icons: {
         android: true,
         appleIcon: true,
@@ -234,13 +218,26 @@ var common = {
         yandex: false
       }
     }),
-
+    (isDev ? null : new SWPrecacheWebpackPlugin({
+      cacheId: 'rikishi-info',
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: 'sw.js',
+      minify: !isDev,
+      navigateFallback: homepage + '/index.html',
+      staticFileGlobsIgnorePatterns: [
+        /\.map$/,
+        /\.cache$/,
+        /\.webapp$/,
+        /\.xml$/,
+        /\.txt$/,
+        /manifest.*\.json$/
+      ]
+    })),
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
-      disable: TARGET === 'start',
+      disable: isDev,
       allChunks: true
     }),
-
     new CopyWebpackPlugin([
       {
         from: 'robots.txt',
@@ -255,46 +252,65 @@ var common = {
         to: distPath
       }
     ]),
-
-    new HtmlWebpackPlugin(merge(htmlConfig, {
-      chunks: ['main', 'vendor']
-    })),
-
+    new HtmlWebpackPlugin({
+      title: 'Rikishi',
+      chunks: ['main', 'vendor'],
+      filename: 'index.html', // path.join(options.distPath, 'index.html'),
+      template: 'main.ejs', // path.join(options.srcPath, 'main.ejs')
+      inject: false,
+      hash: isDev,
+      cache: true,
+      chunksSortMode: 'dependency',
+      appMountId: 'app',
+      mobile: true,
+      lang: 'en-US',
+      alwaysWriteToDisk: true,
+      googleTag: isDev ? false : { trackingId: GOOGLE_TAG },
+      baseHref: homepage,
+    }, {
+      isDev: isDev
+    }),
     new HtmlWebpackHarddiskPlugin()
-  ]
+  ].filter(function (item) {
+    return item !== null;
+  })
 };
 
-if (TARGET === 'start') {
-  common = merge(common, {
-    devServer: {
-      contentBase: distPath,
-      compress: false,
-      port: 9000
-    }
-  });
+if (isDev) {
+  common.devServer = {
+    contentBase: distPath,
+    compress: false,
+    port: 9000
+  };
 }
 
-if (TARGET === 'build') {
-  common = merge(common, {
-    output: {
-      publicPath: homepage + '/assets/'
-    },
 
-    plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
+  // common = merge(common, {
+  //   plugins: [
+  //     new UglifyJSPlugin({
+  //       cache: false,
+  //       parallel: 2,
+  //       sourceMap: true,
+  //       uglifyOptions: {
+  //         ie8: false,
+  //         ecma: 8,
+  //         output: {
+  //           beautify: false,
+  //           comments: false
+  //         }
+  //       }
+  //     }),
 
-      new UglifyJSPlugin(uglifyConfig)
+  //     new CompressionPlugin({
+  //       asset: '[path].gz[query]',
+  //       algorithm: 'gzip',
+  //       test: /\.js$/, // |\.html$
+  //       threshold: 10240,
+  //       minRatio: 0.8,
+  //       deleteOriginalAssets: true
+  //     })
+  //   ]
+  // });
 
-      // new CompressionPlugin({
-      //   asset: '[path].gz[query]',
-      //   algorithm: 'gzip',
-      //   test: /\.js$/, // |\.html$
-      //   threshold: 10240,
-      //   minRatio: 0.8,
-      //   deleteOriginalAssets: true
-      // })
-    ]
-  });
-}
 
 module.exports = common;
