@@ -88,26 +88,7 @@ var common = {
               loader: 'postcss-loader',
               options: {
                 sourceMap: false,
-                plugins: [
-                  require('postcss-easy-import')({
-                    root: srcPath,
-                    prefix: '_'
-                  }),
-                  // require('lost'),
-                  // require('precss')(),
-                  require('postcss-mixins')(),
-                  require('postcss-nested')(),
-                  require('postcss-cssnext')({
-                    // features: {
-                    //   customProperties: {
-                    //     variables: {
-                    //       test: 'red'
-                    //     }
-                    //   }
-                    // }
-                  }),
-                  require('css-mqpacker')()
-                ]
+                plugins: require('./config/webpack/PostCSSOptions')()
               }
             }
           ]
@@ -133,7 +114,7 @@ var common = {
           {
             loader: 'url-loader',
             options: {
-              limit: 10000,
+              limit: 1,
               name: '[hash:8].[ext]',
               outputPath: 'images/'
             }
@@ -281,24 +262,7 @@ if (isDev) {
   };
 }
 
-
-  // common = merge(common, {
-  //   plugins: [
-  //     new UglifyJSPlugin({
-  //       cache: false,
-  //       parallel: 2,
-  //       sourceMap: true,
-  //       uglifyOptions: {
-  //         ie8: false,
-  //         ecma: 8,
-  //         output: {
-  //           beautify: false,
-  //           comments: false
-  //         }
-  //       }
-  //     }),
-
-  //     new CompressionPlugin({
+//     new CompressionPlugin({
   //       asset: '[path].gz[query]',
   //       algorithm: 'gzip',
   //       test: /\.js$/, // |\.html$
@@ -306,8 +270,7 @@ if (isDev) {
   //       minRatio: 0.8,
   //       deleteOriginalAssets: true
   //     })
-  //   ]
-  // });
 
-
-module.exports = common;
+module.exports = [
+  common
+];

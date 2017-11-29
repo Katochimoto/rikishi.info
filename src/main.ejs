@@ -18,7 +18,7 @@
 
     <% if (Array.isArray(htmlWebpackPlugin.options.meta)) { %>
       <% for (item of htmlWebpackPlugin.options.meta) { %>
-      <meta<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %>>
+        <meta<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %>>
       <% } %>
     <% } %>
 
@@ -32,9 +32,15 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <% } %>
 
+    <% if (Array.isArray(htmlWebpackPlugin.options.inlineCss)) { %>
+      <% for (css of htmlWebpackPlugin.options.inlineCss) { %>
+        <style type="text/css"><%= css %></style>
+      <% } %>
+    <% } %>
+
     <% for (item of htmlWebpackPlugin.options.links) { %>
-    <% if (typeof item === 'string' || item instanceof String) { item = { href: item, rel: 'stylesheet' } } %>
-    <link<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %>>
+      <% if (typeof item === 'string' || item instanceof String) { item = { href: item, rel: 'stylesheet' } } %>
+      <link<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %>>
     <% } %>
 
     <% for (key in htmlWebpackPlugin.files.css) { %>
@@ -48,12 +54,12 @@
     <link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet">
     <% } %>
     <% } %>
-
   </head>
   <body>
     <% if (htmlWebpackPlugin.options.svgIcons) { %>
         <%= htmlWebpackPlugin.options.svgIcons %>
     <% } %>
+
     <% if (htmlWebpackPlugin.options.unsupportedBrowser) { %>
     <style>.unsupported-browser { display: none; }</style>
     <div class="unsupported-browser">

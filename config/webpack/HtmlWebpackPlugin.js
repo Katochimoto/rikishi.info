@@ -15,7 +15,7 @@ module.exports = function (config, options) {
       minimize: true,
       removeComments: true,
       collapseWhitespace: true,
-      minifyCSS: true,
+      minifyCSS: false,
       minifyJS: true,
       removeScriptTypeAttributes: true,
       removeStyleTypeAttributes: true
