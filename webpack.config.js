@@ -11,6 +11,7 @@ var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 var package = require('./package.json');
 
 var srcPath = path.join(__dirname, 'src');
@@ -21,6 +22,17 @@ var NODE_ENV = process.env.npm_lifecycle_event === 'build' ?
 var isDev = NODE_ENV === 'development';
 var homepage = isDev ? '' : package.homepage;
 var GOOGLE_TAG = package.googleTag;
+
+var extractInlineCss = new ExtractTextPlugin({
+  filename: 'inline.css',
+  disable: isDev,
+  allChunks: true
+});
+var extractMainCss = new ExtractTextPlugin({
+  filename: '[name].[contenthash].css',
+  disable: isDev,
+  allChunks: true
+});
 
 var common = {
   context: srcPath,
@@ -69,8 +81,38 @@ var common = {
       },
 
       {
+        test: /inline\.css$/,
+        use: extractInlineCss.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                sourceMap: false,
+                minimize: false,
+                camelCase: true,
+                localIdentName: '[local]--[hash:base64:5]', // [path][name]__
+                importLoaders: 1
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: false,
+                plugins: require('./config/webpack/PostCSSOptions')()
+              }
+            }
+          ]
+        })
+      },
+
+      {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
+        exclude: [
+          /inline\.css$/
+        ],
+        use: extractMainCss.extract({
           fallback: 'style-loader',
           use: [
             {
@@ -164,6 +206,16 @@ var common = {
       hashDigest: 'hex',
       hashDigestLength: 20
     }),
+    new CopyWebpackPlugin([
+      {
+        from: 'robots.txt',
+        to: distPath
+      },
+      {
+        from: 'sitemap.xml',
+        to: distPath
+      }
+    ]),
     new WebpackPwaManifest({
       filename: 'manifest.json',
       name: 'Rikishi',
@@ -215,21 +267,6 @@ var common = {
         /manifest.*\.json$/
       ]
     })),
-    new ExtractTextPlugin({
-      filename: '[name].[contenthash].css',
-      disable: isDev,
-      allChunks: true
-    }),
-    new CopyWebpackPlugin([
-      {
-        from: 'robots.txt',
-        to: distPath
-      },
-      {
-        from: 'sitemap.xml',
-        to: distPath
-      }
-    ]),
     new HtmlWebpackPlugin({
       title: 'Rikishi',
       chunks: ['main', 'vendor'],
@@ -248,7 +285,15 @@ var common = {
     }, {
       isDev: isDev
     }),
-    new HtmlWebpackHarddiskPlugin()
+    (isDev ? new HtmlWebpackHarddiskPlugin() : null),
+    extractInlineCss,
+    extractMainCss,
+    new StyleExtHtmlWebpackPlugin({
+      enabled: !isDev,
+      file: 'inline.css',
+      position: 'head-top',
+      minify: true
+    })
   ].filter(function (item) {
     return item !== null;
   })
