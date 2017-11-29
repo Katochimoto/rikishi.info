@@ -96,6 +96,7 @@ var common = {
                   // require('lost'),
                   // require('precss')(),
                   require('postcss-mixins')(),
+                  require('postcss-nested')(),
                   require('postcss-cssnext')({
                     // features: {
                     //   customProperties: {
@@ -187,8 +188,8 @@ var common = {
       name: 'Rikishi',
       short_name: 'Rikishi',
       description: 'Rikishi contact details',
-      background_color: 'aliceblue',
-      theme_color: 'aliceblue',
+      background_color: '#9cf1fa',
+      theme_color: '#9cf1fa',
       display: 'minimal-ui',
       lang: 'en-US',
       orientation: 'any',

@@ -5496,7 +5496,7 @@ postcss-modules-values@^1.1.0:
     icss-replace-symbols "^1.1.0"
     postcss "^6.0.1"
 
-postcss-nested@^2.0.2:
+postcss-nested@^2.0.2, postcss-nested@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-2.1.2.tgz#04057281f9631fef684857fb0119bae04ede03c6"
   dependencies:

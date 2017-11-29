@@ -1,3 +1,37 @@
+@import "../index.css";
+
 :global .noscript {
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  perspective: 1000px;
+  position: relative;
+  min-height: 100%;
+  padding: 1.5em;
+  box-sizing: border-box;
+  z-index: 2;
+  color: #fff;
+}
+
+:global .noscript:before {
+  content: '';
+  display: block;
+}
+
+:global .noscript-header {
+  color: #fff;
+}
+
+:global .noscript-content {
+  text-align: center;
+}
+
+:global .noscript-footer {
+  @mixin Footer;
+}
+
+:global .noscript-copyright {
+  @mixin Copyright;
 }

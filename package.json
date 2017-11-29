@@ -37,6 +37,7 @@
     "postcss-easy-import": "3.0.0",
     "postcss-loader": "2.0.8",
     "postcss-mixins": "^6.2.0",
+    "postcss-nested": "^2.1.2",
     "postcss-utilities": "^0.7.0",
     "precss": "2.0.0",
     "preprocess-loader": "^0.2.2",
