@@ -80,6 +80,10 @@ module.exports = function (config, options) {
     {
       name: 'theme-color',
       content: '#ffffff'
+    },
+    {
+      name: 'mobile-web-app-capable',
+      content: 'yes'
     }
   ];
 
