@@ -42,6 +42,7 @@ module.exports = function (config, options) {
       'http-equiv': 'Content-Security-Policy',
       content: options.isDev ? "default-src 'self' 'unsafe-inline' data: *" :
         "default-src 'self';" +
+        "connect-src 'self' https://pgp.mit.edu;" +
         "script-src 'self' https://www.googletagmanager.com;" +
         "img-src 'self' https://s.gravatar.com data:;" +
         "font-src 'self' data:;" +
