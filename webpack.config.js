@@ -12,6 +12,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
+var InlineCSP = require('./config/webpack/InlineCSP');
 var package = require('./package.json');
 
 var srcPath = path.join(__dirname, 'src');
@@ -291,8 +292,11 @@ var common = {
     new StyleExtHtmlWebpackPlugin({
       enabled: !isDev,
       file: 'inline.css',
-      position: 'head-top',
+      // position: 'head-bottom',
       minify: true
+    }),
+    new InlineCSP({
+      disable: isDev
     })
   ].filter(function (item) {
     return item !== null;
