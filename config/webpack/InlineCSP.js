@@ -1,6 +1,6 @@
-var sha256 = require('sha256');
+var crypto = require('crypto');
 
-var REG_INLINE = /<((style|script)[^>]*)>(.+)<\/(?:style|script)>/g;
+var REG_INLINE = /<((style|script)[^>]*)>([\s\S]+?)<\/(?:style|script)>/mg;
 var REG_META = /<meta [^>]*http-equiv=["']Content-Security-Policy["'][^>]*>/i;
 var REG_CONTENT = / content=["'](.*)["']/;
 
@@ -34,55 +34,36 @@ InlineCSP.prototype.apply = function (compiler) {
           params.indexOf(' src=') === -1 &&
           content && content.trim().length > 0
         ) {
-          hashList[type].push(sha256(content));
+          var shasum = crypto.createHash('sha256');
+          shasum.update(content, 'utf-8');
+
+          hashList[type].push("'sha256-" + shasum.digest('base64') + "'");
           finded = true;
         }
       }
 
       if (finded) {
-        for (var type in hashList) {
-          hashList[type] = hashList[type].map(cspInlineHash).join(' ');
-        }
-
         pluginArgs.html = pluginArgs.html.replace(REG_META, function (meta) {
           return meta.replace(REG_CONTENT, function (text, content) {
-            var addedScript = false;
-            var addedStyle = false;
+            var rules = cspToRules(content);
 
-            content = content
-              .split(';')
-              .map(function (rule) {
-                rule = rule.trim();
-                if (rule.indexOf('script-src') === 0 && hashList.script) {
-                  rule += ' ' + hashList.script;
-                  addedScript = true;
-                } else if (rule.indexOf('style-src') === 0 && hashList.style) {
-                  rule += ' ' + hashList.style;
-                  addedStyle = true;
-                }
-                return rule;
-              })
-              .join(';');
-
-            // TODO сделать подстановку из default-src
-            if (!addedScript && hashList.script) {
-              content += ';script-src ' + hashList.script;
+            if (hashList.script.length) {
+              rules['script-src'] = (rules['script-src'] || rules['default-src'] || [])
+                .concat(hashList.script);
             }
 
-            // TODO сделать подстановку из default-src
-            if (!addedStyle && hashList.style) {
-              content += ';style-src ' + hashList.style;
+            if (hashList.style.length) {
+              rules['style-src'] = (rules['style-src'] || rules['default-src'] || [])
+                .concat(hashList.style);
             }
 
-            return ' content="' + content + '"';
+            return ' content="' + rulesToCsp(rules) + '"';
           });
         });
       }
     });
   });
 };
-
-// <meta http-equiv="Content-Security-Policy" content="default-src 'self';script-src 'self' https://www.googletagmanager.com;img-src 'self' https://s.gravatar.com data:;font-src 'self' data:;object-src 'none';child-src 'none';frame-src 'none';form-action 'self';upgrade-insecure-requests;block-all-mixed-content;base-uri https://rikishi.info">
 
 module.exports = InlineCSP;
 
@@ -99,4 +80,18 @@ function wirePluginEvent (event, compilation, fn) {
 
 function cspInlineHash (hash) {
   return "'sha256-" + hash + "'"
+}
+
+function cspToRules (content) {
+  return content.split(';').reduce(function (data, rule) {
+    rule = rule.trim().split(/\s+/);
+    data[ rule.shift().toLowerCase() ] = rule;
+    return data;
+  }, {});
+}
+
+function rulesToCsp (rules) {
+  return Object.keys(rules).map(function (name) {
+    return name + ' ' + rules[name].join(' ');
+  }).join('; ');
 }

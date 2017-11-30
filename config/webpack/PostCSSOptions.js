@@ -19,6 +19,7 @@ module.exports = function () {
       //   }
       // }
     }),
-    require('css-mqpacker')()
+    require('css-mqpacker')(),
+    require('postcss-csso')()
   ];
 };

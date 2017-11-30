@@ -270,8 +270,8 @@ var common = {
     new HtmlWebpackPlugin({
       title: 'Rikishi',
       chunks: ['main', 'vendor'],
-      filename: 'index.html', // path.join(options.distPath, 'index.html'),
-      template: 'main.ejs', // path.join(options.srcPath, 'main.ejs')
+      filename: 'index.html',
+      template: 'main.ejs',
       inject: false,
       hash: isDev,
       cache: true,
@@ -282,15 +282,14 @@ var common = {
       alwaysWriteToDisk: true,
       googleTag: isDev ? false : { trackingId: GOOGLE_TAG },
       baseHref: homepage,
+      reInlineCss: /inline\.css$/
     }, {
       isDev: isDev
     }),
     (isDev ? new HtmlWebpackHarddiskPlugin() : null),
     extractInlineCss,
     extractMainCss,
-    new InlineCSP({
-      disable: isDev
-    })
+    new InlineCSP({ disable: isDev })
   ].filter(function (item) {
     return item !== null;
   })
