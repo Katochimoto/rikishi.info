@@ -11,7 +11,6 @@ var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-var StyleExtHtmlWebpackPlugin = require('style-ext-html-webpack-plugin');
 var InlineCSP = require('./config/webpack/InlineCSP');
 var package = require('./package.json');
 
@@ -289,12 +288,6 @@ var common = {
     (isDev ? new HtmlWebpackHarddiskPlugin() : null),
     extractInlineCss,
     extractMainCss,
-    new StyleExtHtmlWebpackPlugin({
-      enabled: !isDev,
-      file: 'inline.css',
-      // position: 'head-bottom',
-      minify: true
-    }),
     new InlineCSP({
       disable: isDev
     })
