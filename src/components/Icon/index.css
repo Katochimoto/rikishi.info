@@ -6,6 +6,10 @@
   flex-shrink: 0;
 }
 
+.icon-base {
+  fill: transparent;
+}
+
 .icon_size_xxl {
   width: 60px;
   height: 60px;

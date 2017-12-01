@@ -48,7 +48,6 @@ module.exports = function (config, options) {
         "font-src 'self' data:;" +
         "object-src 'none';" +
         "child-src 'none';" +
-        "frame-src 'none';" +
         "form-action 'self';" +
         "upgrade-insecure-requests;" +
         "block-all-mixed-content;" +

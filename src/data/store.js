@@ -2,6 +2,7 @@ import { ReduceStore } from 'flux/utils'
 import { isFSA } from 'flux-standard-action'
 import dispatcher from './dispatcher'
 import userpic from '../images/avatar.jpg'
+import photo from '../images/photo.png'
 
 class BioStore extends ReduceStore {
   getInitialState () {
@@ -13,7 +14,7 @@ class BioStore extends ReduceStore {
       nickname: 'rikishi',
       role: 'Web Developer',
       userpic: userpic,
-    };
+    }
   }
 
   hasAccess () {
@@ -37,7 +38,8 @@ class BioStore extends ReduceStore {
         return {
           ...state,
           ...payload,
-          access: 'private'
+          userpic: photo,
+          access: 'private',
         }
       default:
         return state

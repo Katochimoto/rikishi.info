@@ -3,7 +3,6 @@ import style from './index.css'
 
 export default function Icon ({
   className,
-  color,
   size = 's',
   type,
 } = {}) {
@@ -16,16 +15,10 @@ export default function Icon ({
     [ className ]: Boolean(className)
   })
 
-  const cssStyle = {}
-
-  if (color) {
-    cssStyle.color = color
-  }
-
   return (
-    <svg xmlns="https://www.w3.org/2000/svg" className={classes} style={cssStyle}>
+    <svg xmlns="https://www.w3.org/2000/svg" className={classes}>
       <use href={`#icon-${type}`}></use>
-      <rect height="100%" width="100%" style={{ fill: 'transparent' }}></rect>
+      <rect height="100%" width="100%" className={style.iconBase}></rect>
     </svg>
   )
 }
