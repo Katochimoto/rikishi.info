@@ -17,7 +17,7 @@ export default function Icon ({
 
   return (
     <svg xmlns="https://www.w3.org/2000/svg" className={classes}>
-      <use href={`#icon-${type}`}></use>
+      <use xlinkHref={`#icon-${type}`}></use>
       <rect height="100%" width="100%" className={style.iconBase}></rect>
     </svg>
   )
