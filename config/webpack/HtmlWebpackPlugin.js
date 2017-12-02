@@ -47,7 +47,8 @@ module.exports = function (config, options) {
         "img-src 'self' data:;" + // https://s.gravatar.com
         "font-src 'self' data:;" +
         "object-src 'none';" +
-        "child-src 'none';" +
+        "child-src 'none';" + // deprecated
+        "frame-src 'none';" +
         "form-action 'self';" +
         "upgrade-insecure-requests;" +
         "block-all-mixed-content;" +
