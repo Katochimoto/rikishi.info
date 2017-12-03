@@ -1,6 +1,6 @@
 var crypto = require('crypto');
 
-var REG_INLINE = /<((style|script)[^>]*)>([\s\S]+?)<\/(?:style|script)>/mg;
+var REG_INLINE = /<((style|script)[^>]*)>([\s\S]*?)<\/(?:style|script)>/mg;
 var REG_META = /<meta [^>]*http-equiv=["']Content-Security-Policy["'][^>]*>/i;
 var REG_CONTENT = / content=["'](.*)["']/;
 
@@ -34,38 +34,48 @@ InlineCSP.prototype.apply = function (compiler) {
           params.indexOf(' src=') === -1 &&
           content && content.trim().length > 0
         ) {
-          var shasum = crypto.createHash('sha256');
-          shasum.update(content, 'utf-8');
-
-          hashList[type].push("'sha256-" + shasum.digest('base64') + "'");
+          var hash = cspInlineHash(content);
+          hashList[type][hash] = true;
           finded = true;
         }
       }
 
       if (finded) {
-        pluginArgs.html = pluginArgs.html.replace(REG_META, function (meta) {
-          return meta.replace(REG_CONTENT, function (text, content) {
-            var rules = cspToRules(content);
-
-            if (hashList.script.length) {
-              rules['script-src'] = (rules['script-src'] || rules['default-src'] || [])
-                .concat(hashList.script);
-            }
-
-            if (hashList.style.length) {
-              rules['style-src'] = (rules['style-src'] || rules['default-src'] || [])
-                .concat(hashList.style);
-            }
-
-            return ' content="' + rulesToCsp(rules) + '"';
+        if (REG_META.test(pluginArgs.html)) {
+          pluginArgs.html = pluginArgs.html.replace(REG_META, function (meta) {
+            return meta.replace(REG_CONTENT, function (text, content) {
+              return replaceCspContent(hashList, text, content);
+            });
           });
-        });
+        } else {
+          pluginArgs.html = pluginArgs.html.replace('<head>', function (meta) {
+            return '<head><meta http-equiv="Content-Security-Policy" ' + replaceCspContent(hashList) + '>';
+          });
+        }
       }
     });
   });
 };
 
 module.exports = InlineCSP;
+
+function replaceCspContent (hashList, text, content) {
+  var rules = cspToRules(String(content || ''));
+  var script = Object.keys(hashList.script);
+  var style = Object.keys(hashList.style);
+
+  if (script.length) {
+    rules['script-src'] = (rules['script-src'] || rules['default-src'] || [])
+      .concat(script);
+  }
+
+  if (style.length) {
+    rules['style-src'] = (rules['style-src'] || rules['default-src'] || [])
+      .concat(style);
+  }
+
+  return ' content="' + rulesToCsp(rules) + '"';
+}
 
 function wirePluginEvent (event, compilation, fn) {
   compilation.plugin(event, function (pluginArgs, callback) {
@@ -78,14 +88,19 @@ function wirePluginEvent (event, compilation, fn) {
   });
 }
 
-function cspInlineHash (hash) {
-  return "'sha256-" + hash + "'"
+function cspInlineHash (content) {
+  var shasum = crypto.createHash('sha256');
+  shasum.update(content, 'utf-8');
+  return "'sha256-" + shasum.digest('base64') + "'";
 }
 
 function cspToRules (content) {
   return content.split(';').reduce(function (data, rule) {
-    rule = rule.trim().split(/\s+/);
-    data[ rule.shift().toLowerCase() ] = rule;
+    rule = rule.trim();
+    if (rule) {
+      rule = rule.split(/\s+/);
+      data[ rule.shift().toLowerCase() ] = rule;
+    }
     return data;
   }, {});
 }

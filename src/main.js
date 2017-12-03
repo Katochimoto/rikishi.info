@@ -14,17 +14,9 @@ window.onload = function () {
 // @if NODE_ENV='production'
 (function () {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', {
+    navigator.serviceWorker.register('/sw.js', {
       scope: '/'
     })
   }
-
-  window.dataLayer = window.dataLayer || []
-  window.gtag = function (...args) {
-    dataLayer.push(args)
-  }
-
-  window.gtag('js', new Date())
-  window.gtag('config', '/* @echo GOOGLE_TAG */')
  }())
 // @endif

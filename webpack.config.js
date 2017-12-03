@@ -177,7 +177,7 @@ var common = {
   },
 
   plugins: [
-    new CleanWebpackPlugin([ 'dist' ], { verbose: true }),
+    new CleanWebpackPlugin([ 'dist/**/*' ], { verbose: true }),
     (isDev ? null : new BundleAnalyzerPlugin({ analyzerMode: 'static' })),
     (isDev ? null : new webpack.optimize.OccurrenceOrderPlugin()),
     new webpack.LoaderOptionsPlugin({ minimize: true, debug: false }),
