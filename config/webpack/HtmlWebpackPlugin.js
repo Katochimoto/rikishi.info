@@ -43,8 +43,8 @@ module.exports = function (config, options) {
       content: options.isDev ? "default-src 'self' 'unsafe-inline' data: *" :
         "default-src 'self';" +
         "connect-src 'self' https://pgp.mit.edu;" +
-        "script-src 'self' https://www.googletagmanager.com;" +
-        "img-src 'self' data:;" + // https://s.gravatar.com
+        "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com;" +
+        "img-src 'self' data: https://www.google-analytics.com;" + // https://s.gravatar.com
         "font-src 'self' data:;" +
         "object-src 'none';" +
         "child-src 'none';" + // deprecated
