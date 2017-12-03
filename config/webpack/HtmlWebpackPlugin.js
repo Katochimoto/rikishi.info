@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = function (config, options) {
   config = config || {};
 
-  var symbols = path.join(process.cwd(), 'node_modules/calendar-icons/dist/svg/symbols.svg');
+  var symbols = path.join(process.cwd(), 'node_modules/icons/dist/svg/symbols.svg');
   var svgIcons = fs.readFileSync(symbols, 'utf-8');
 
   config.svgIcons = svgIcons;
