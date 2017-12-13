@@ -23,6 +23,7 @@ export default function Bio ({
     { href: bio.pinterest, title: 'Pinterest', type: 'pinterest' },
     { href: bio.twitter, title: 'Twitter', type: 'twitter' },
     { href: bio.google, title: 'Google+', type: 'google-plus' },
+    { href: `icq:${bio.icq}`, type: 'icq', title: 'ICQ', target: null },
     { href: bio.rss, title: 'RSS', type: 'rss' },
   ];
 
@@ -60,9 +61,9 @@ export default function Bio ({
           <dd className={style.bioListItem}>
             <a href={`skype:${bio.skype}?add`}>{bio.skype}</a>
           </dd>
-          <dt className={style.bioListHead}>ICQ</dt>
+          <dt className={style.bioListHead}>Jabber</dt>
           <dd className={style.bioListItem}>
-            <a href={`icq:${bio.icq}`}>{bio.icq}</a>
+            <a href={`xmpp:${bio.jabber}?message`}>{bio.jabber}</a>
           </dd>
         </dl>
         <Social items={socialItems1} size="s" circle={false} />

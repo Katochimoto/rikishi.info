@@ -44,8 +44,8 @@ module.exports = function (config, options) {
         "default-src 'self';" +
         "connect-src 'self' https://pgp.mit.edu;" +
         "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com;" +
-        "img-src 'self' data: https://www.google-analytics.com;" + // https://s.gravatar.com
-        "font-src 'self' data:;" +
+        "img-src 'self' https://www.google-analytics.com;" + // data: https://s.gravatar.com
+        // "font-src 'self' data:;" +
         "object-src 'none';" +
         "child-src 'none';" + // deprecated
         "frame-src 'none';" +

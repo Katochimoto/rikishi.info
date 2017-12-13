@@ -3359,7 +3359,7 @@ https-browserify@^1.0.0:
 
 "icons@https://github.com/Katochimoto/icons.git#rikishi-info":
   version "0.0.1"
-  resolved "https://github.com/Katochimoto/icons.git#f03347c3a8d667eb6a406a127014df1693d7405d"
+  resolved "https://github.com/Katochimoto/icons.git#00b86f990885701d827be94aa5e299decff7a4b6"
 
 iconv-lite@0.4.19, iconv-lite@~0.4.13:
   version "0.4.19"
