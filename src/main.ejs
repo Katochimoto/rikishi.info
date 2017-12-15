@@ -83,7 +83,7 @@
           <ul class="noscript-copyright">
             <li class="noscript-copyright-item">&copy; Rikishi</li>
             <li class="noscript-copyright-item">
-              Design: <a href="https://html5up.net/identity" rel="noopener" target="_blank">HTML5 UP</a>
+              Design: <a href="https://html5up.net/identity" rel="noopener noreferrer" target="_blank">HTML5 UP</a>
             </li>
           </ul>
         </footer>
@@ -110,7 +110,7 @@
     <% } %>
 
     <% for (item of htmlWebpackPlugin.options.scripts) { %>
-    <% if (typeof item === 'string' || item instanceof String) { item = { src: item, type: 'text/javascript', charset: 'utf-8' } } %>
+    <% if (typeof item === 'string' || item instanceof String) { item = { src: item, type: 'text/javascript', charset: 'utf-8', crossorigin: 'anonymous' } } %>
     <script<% for (key in item) { %> <%= key %>="<%= item[key] %>"<% } %>></script>
     <% } %>
 

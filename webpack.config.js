@@ -11,6 +11,7 @@ var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+var SriPlugin = require('webpack-subresource-integrity');
 var InlineCSP = require('./config/webpack/InlineCSP');
 var package = require('./package.json');
 
@@ -45,7 +46,8 @@ var common = {
     path: distPath,
     publicPath: homepage + '/',
     filename: '[name].[chunkhash].js',
-    chunkFilename: 'chunk.[chunkhash].js'
+    chunkFilename: 'chunk.[chunkhash].js',
+    crossOriginLoading: 'anonymous'
   },
 
   module: {
@@ -289,7 +291,11 @@ var common = {
     (isDev ? new HtmlWebpackHarddiskPlugin() : null),
     extractInlineCss,
     extractMainCss,
-    new InlineCSP({ disable: isDev })
+    new InlineCSP({ disable: isDev }),
+    new SriPlugin({
+      hashFuncNames: ['sha256', 'sha384'],
+      enabled: !isDev
+    })
   ].filter(function (item) {
     return item !== null;
   })
