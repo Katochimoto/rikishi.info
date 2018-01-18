@@ -53,7 +53,7 @@ export default function Bio ({
           </dd>
           <dt className={style.bioListHead}>Phone</dt>
           <dd className={style.bioListItem}>
-            <a href={`tel:${bio.phone}`}>{bio.phone}</a>
+            <a href={`tel:${bio.phoneAus}`}>{bio.phoneAus}</a>
             <Icon className={style.bioExternal} type="whatsapp" size="s" />
             <Icon className={style.bioExternal} type="viber" size="s" />
           </dd>

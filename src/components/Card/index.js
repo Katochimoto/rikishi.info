@@ -12,7 +12,7 @@ export default function Card ({
   if (hasAccess) {
     socialItems = [
       { href: `skype:${bio.skype}?call`, type: 'skype', title: 'Call by Skype', target: null },
-      { href: `tel:${bio.phone}`, type: 'phone', title: 'Call by phone', target: null },
+      { href: `tel:${bio.phoneAus}`, type: 'phone', title: 'Call by phone', target: null },
       { href: '/bio', type: 'v-card', title: 'Extended info' },
     ]
   } else {
