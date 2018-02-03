@@ -44,16 +44,16 @@
     <% } %>
 
     <% for (key in htmlWebpackPlugin.files.css) { %>
-      <% if (htmlWebpackPlugin.files.cssIntegrity) { %>
-        <link
-          href="<%= htmlWebpackPlugin.files.css[key] %>"
-          rel="stylesheet"
-          integrity="<%= htmlWebpackPlugin.files.cssIntegrity[key] %>"
-          crossorigin="<%= webpackConfig.output.crossOriginLoading %>">
+      <% var cssFileName = htmlWebpackPlugin.files.css[key].substr(htmlWebpackPlugin.files.publicPath.length) %>
+      <% if (htmlWebpackPlugin.options.reInlineCss && htmlWebpackPlugin.options.reInlineCss.test(cssFileName)) { %>
+        <style><%= compilation.assets['inline.css'].source() %></style>
       <% } else { %>
-        <% var cssFileName = htmlWebpackPlugin.files.css[key].substr(htmlWebpackPlugin.files.publicPath.length) %>
-        <% if (htmlWebpackPlugin.options.reInlineCss && htmlWebpackPlugin.options.reInlineCss.test(cssFileName)) { %>
-          <style><%= compilation.assets['inline.css'].source() %></style>
+        <% if (htmlWebpackPlugin.files.cssIntegrity) { %>
+          <link
+            href="<%= htmlWebpackPlugin.files.css[key] %>"
+            rel="stylesheet"
+            integrity="<%= htmlWebpackPlugin.files.cssIntegrity[key] %>"
+            crossorigin="<%= webpackConfig.output.crossOriginLoading %>">
         <% } else { %>
           <link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet">
         <% } %>
