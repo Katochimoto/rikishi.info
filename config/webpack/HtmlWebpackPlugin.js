@@ -40,7 +40,7 @@ module.exports = function (config, options) {
   config.meta = [
     {
       'http-equiv': 'Content-Security-Policy',
-      content: options.isDev ? "default-src 'self' 'unsafe-inline' data: *" :
+      content: options.isDev ? "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: *" :
         "default-src 'self';" +
         "connect-src 'self' https://pgp.mit.edu;" +
         "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com;" +
@@ -80,7 +80,7 @@ module.exports = function (config, options) {
     },
     {
       name: 'theme-color',
-      content: '#ffffff'
+      content: '#9cf1fa'
     },
     {
       name: 'mobile-web-app-capable',

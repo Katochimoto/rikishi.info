@@ -46,7 +46,7 @@
     <% for (key in htmlWebpackPlugin.files.css) { %>
       <% var cssFileName = htmlWebpackPlugin.files.css[key].substr(htmlWebpackPlugin.files.publicPath.length) %>
       <% if (htmlWebpackPlugin.options.reInlineCss && htmlWebpackPlugin.options.reInlineCss.test(cssFileName)) { %>
-        <style><%= compilation.assets['inline.css'].source() %></style>
+        <style><%= compilation.assets[cssFileName].source() %></style>
       <% } else { %>
         <% if (htmlWebpackPlugin.files.cssIntegrity) { %>
           <link
@@ -115,17 +115,17 @@
     <% } %>
 
     <% for (key in htmlWebpackPlugin.files.chunks) { %>
-    <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
-    <script
-      src="<%= htmlWebpackPlugin.files.chunks[key].entry %>"
-      type="text/javascript"
-      charset="utf-8"
-      integrity="<%= htmlWebpackPlugin.files.jsIntegrity[htmlWebpackPlugin.files.js.indexOf(htmlWebpackPlugin.files.chunks[key].entry)] %>"
-      crossorigin="<%= webpackConfig.output.crossOriginLoading %>"
-      defer></script>
-    <% } else { %>
-    <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript" charset="utf-8" defer></script>
-    <% } %>
+      <% if (htmlWebpackPlugin.files.jsIntegrity) { %>
+        <script
+          src="<%= htmlWebpackPlugin.files.chunks[key].entry %>"
+          type="text/javascript"
+          charset="utf-8"
+          integrity="<%= htmlWebpackPlugin.files.jsIntegrity[htmlWebpackPlugin.files.js.indexOf(htmlWebpackPlugin.files.chunks[key].entry)] %>"
+          crossorigin="<%= webpackConfig.output.crossOriginLoading %>"
+          defer></script>
+      <% } else { %>
+        <script src="<%= htmlWebpackPlugin.files.chunks[key].entry %>" type="text/javascript" charset="utf-8" defer></script>
+      <% } %>
     <% } %>
 
     <% if (htmlWebpackPlugin.options.devServer) { %>

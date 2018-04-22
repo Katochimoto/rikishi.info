@@ -14,46 +14,49 @@ InlineCSP.prototype.apply = function (compiler) {
     return;
   }
 
-  compiler.plugin('compilation', function (compilation) {
-    wirePluginEvent('html-webpack-plugin-after-html-processing', compilation, function (pluginArgs) {
-      var hashList = {
-        style: [],
-        script: []
-      };
+  compiler.hooks.compilation.tap('InlineCSP', function (compilation) {
+    compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tap(
+      'InlineCSP',
+      function (data) {
+        var hashList = {
+          style: [],
+          script: []
+        };
 
-      var finded = false;
-      var item;
+        var finded = false;
+        var item;
 
-      while ((item = REG_INLINE.exec(pluginArgs.html)) !== null) {
-        var params = item[1];
-        var type = item[2];
-        var content = item[3];
+        while ((item = REG_INLINE.exec(data.html)) !== null) {
+          var params = item[1];
+          var type = item[2];
+          var content = item[3];
 
-        if (
-          hashList.hasOwnProperty(type) &&
-          params.indexOf(' src=') === -1 &&
-          content && content.trim().length > 0
-        ) {
-          var hash = cspInlineHash(content);
-          hashList[type][hash] = true;
-          finded = true;
+          if (
+            hashList.hasOwnProperty(type) &&
+            params.indexOf(' src=') === -1 &&
+            content && content.trim().length > 0
+          ) {
+            var hash = cspInlineHash(content);
+            hashList[type][hash] = true;
+            finded = true;
+          }
         }
-      }
 
-      if (finded) {
-        if (REG_META.test(pluginArgs.html)) {
-          pluginArgs.html = pluginArgs.html.replace(REG_META, function (meta) {
-            return meta.replace(REG_CONTENT, function (text, content) {
-              return replaceCspContent(hashList, text, content);
+        if (finded) {
+          if (REG_META.test(data.html)) {
+            data.html = data.html.replace(REG_META, function (meta) {
+              return meta.replace(REG_CONTENT, function (text, content) {
+                return replaceCspContent(hashList, text, content);
+              });
             });
-          });
-        } else {
-          pluginArgs.html = pluginArgs.html.replace('<head>', function (meta) {
-            return '<head><meta http-equiv="Content-Security-Policy" ' + replaceCspContent(hashList) + '>';
-          });
+          } else {
+            data.html = data.html.replace('<head>', function (meta) {
+              return '<head><meta http-equiv="Content-Security-Policy" ' + replaceCspContent(hashList) + '>';
+            });
+          }
         }
       }
-    });
+    );
   });
 };
 
@@ -75,17 +78,6 @@ function replaceCspContent (hashList, text, content) {
   }
 
   return ' content="' + rulesToCsp(rules) + '"';
-}
-
-function wirePluginEvent (event, compilation, fn) {
-  compilation.plugin(event, function (pluginArgs, callback) {
-    try {
-      fn(pluginArgs);
-      callback(null, pluginArgs);
-    } catch (err) {
-      callback(err);
-    }
-  });
 }
 
 function cspInlineHash (content) {

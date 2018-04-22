@@ -4,7 +4,7 @@ var HtmlWebpackPlugin = require('./config/webpack/HtmlWebpackPlugin');
 var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var WebpackPwaManifest = require('webpack-pwa-manifest');
 var CompressionPlugin = require('compression-webpack-plugin');
@@ -24,22 +24,14 @@ var isDev = NODE_ENV === 'development';
 var homepage = isDev ? '' : package.homepage;
 var GOOGLE_TAG = package.googleTag;
 
-var extractInlineCss = new ExtractTextPlugin({
-  filename: 'inline.css',
-  disable: isDev,
-  allChunks: true
-});
-var extractMainCss = new ExtractTextPlugin({
-  filename: '[name].[contenthash].css',
-  disable: isDev,
-  allChunks: true
-});
-
 var common = {
+  mode: NODE_ENV,
+
   context: srcPath,
 
   entry: {
-    main: path.join(srcPath, 'main.js')
+    main: path.join(srcPath, 'main.js'),
+    inline: path.join(srcPath, 'inline.js'),
   },
 
   output: {
@@ -54,7 +46,9 @@ var common = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/
+        ],
         use: [
           {
             loader: 'preprocess-loader',
@@ -83,60 +77,28 @@ var common = {
       },
 
       {
-        test: /inline\.css$/,
-        use: extractInlineCss.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                sourceMap: false,
-                minimize: false,
-                camelCase: true,
-                localIdentName: '[local]--[hash:base64:5]', // [path][name]__
-                importLoaders: 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: false,
-                plugins: require('./config/webpack/PostCSSOptions')()
-              }
-            }
-          ]
-        })
-      },
-
-      {
         test: /\.css$/,
-        exclude: [
-          /inline\.css$/
-        ],
-        use: extractMainCss.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                sourceMap: false,
-                minimize: false,
-                camelCase: true,
-                localIdentName: '[local]--[hash:base64:5]', // [path][name]__
-                importLoaders: 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: false,
-                plugins: require('./config/webpack/PostCSSOptions')()
-              }
+        use: [
+          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: false,
+              minimize: false,
+              camelCase: true,
+              localIdentName: '[local]--[hash:base64:5]',
+              importLoaders: 1
             }
-          ]
-        })
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: false,
+              plugins: require('./config/webpack/PostCSSOptions')()
+            }
+          }
+        ]
       },
 
       {
@@ -178,6 +140,35 @@ var common = {
     ]
   },
 
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '-',
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          enforce: true,
+          priority: 0
+        },
+        commons: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          // chunks: 'all',
+          priority: -10
+        },
+        default: {
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
+
   plugins: [
     new CleanWebpackPlugin([ 'dist/**/*' ], { verbose: true }),
     (isDev ? null : new BundleAnalyzerPlugin({ analyzerMode: 'static' })),
@@ -191,17 +182,6 @@ var common = {
     new webpack.ProvidePlugin({
       'React': 'react',
       'ReactDOM': 'react-dom'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: true,
-      children: true
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module, count) {
-        var context = module.context;
-        return context && context.indexOf('node_modules') !== -1;
-      }
     }),
     new webpack.HashedModuleIdsPlugin({
       hashFunction: 'sha256',
@@ -235,6 +215,9 @@ var common = {
         sizes: [96, 128, 192, 256, 512],
         destination: 'manifest/'
       }]
+    }),
+    new MiniCssExtractPlugin({
+      filename: isDev ? '[name].css' : '[name].[contenthash].css'
     }),
     new FaviconsWebpackPlugin({
       logo: path.join(srcPath, 'images', 'avatar.jpg'),
@@ -271,7 +254,7 @@ var common = {
     })),
     new HtmlWebpackPlugin({
       title: 'Rikishi',
-      chunks: ['main', 'vendor'],
+      chunks: ['main', 'vendor', 'inline'],
       filename: 'index.html',
       template: 'main.ejs',
       inject: false,
@@ -284,13 +267,11 @@ var common = {
       alwaysWriteToDisk: true,
       googleTag: isDev ? false : { trackingId: GOOGLE_TAG },
       baseHref: homepage,
-      reInlineCss: /inline\.css$/
+      reInlineCss: /inline(\.[0-9a-z]+)?\.css$/
     }, {
       isDev: isDev
     }),
     (isDev ? new HtmlWebpackHarddiskPlugin() : null),
-    extractInlineCss,
-    extractMainCss,
     new InlineCSP({ disable: isDev }),
     new SriPlugin({
       hashFuncNames: ['sha256', 'sha384'],

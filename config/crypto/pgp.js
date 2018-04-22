@@ -70,11 +70,13 @@ async function getPrivkey () {
 
 async function sign (data, privkey, passphrase) {
   var privKeyObj = openpgp.key.readArmored(privkey).keys[0];
-  privKeyObj.decrypt(passphrase);
+  await privKeyObj.decrypt(passphrase);
 
   var signed = await openpgp.sign({
     data: data,
-    privateKeys: privKeyObj
+    privateKeys: [
+      privKeyObj
+    ]
   });
 
   return signed.data;
