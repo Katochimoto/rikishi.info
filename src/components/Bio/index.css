@@ -68,6 +68,12 @@
 
 .bio-list-item {
   margin-left: 1em;
+  margin-bottom: 0.5em;
+}
+
+.bio-list-item-flag {
+  margin-left: -1em;
+  margin-right: 1em;
 }
 
 .bio-list-item + .bio-list-head {

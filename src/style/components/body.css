@@ -7,11 +7,17 @@
   background-image:
     url('../images/overlay.png'),
     linear-gradient(60deg, color(var(--color-accent1) alpha(50%)) 5%, color(var(--color-accent2) alpha(35%))),
-    url('../images/bg.jpg');
+    url('../images/bg1.jpg');
   background-repeat:		repeat,			no-repeat,			no-repeat;
   background-size:		100px 100px,	cover,				cover;
   background-position:	top left,		center center,		bottom center;
   background-attachment:	fixed,			fixed,				fixed;
+
+  /* background-image: url('../images/bg1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  background-attachment: fixed; */
 
   -webkit-text-size-adjust: none;
   text-size-adjust: none;

@@ -142,7 +142,6 @@ var common = {
 
   optimization: {
     splitChunks: {
-      chunks: 'async',
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5,
@@ -153,17 +152,19 @@ var common = {
           name: 'styles',
           test: /\.css$/,
           enforce: true,
+          chunks: 'async',
           priority: 0
         },
         commons: {
           name: 'vendor',
           test: /[\\/]node_modules[\\/]/,
-          // chunks: 'all',
+          chunks: 'async',
           priority: -10
         },
         default: {
           priority: -20,
-          reuseExistingChunk: true
+          reuseExistingChunk: true,
+          chunks: 'async'
         }
       }
     }

@@ -2,6 +2,10 @@ import Avatar from '../Avatar'
 import Social from '../Social'
 import Icon from '../Icon'
 
+import flagRu from '../../images/ru.svg'
+import flagAu from '../../images/au.svg'
+import flagTh from '../../images/th.svg'
+
 import style from './index.css'
 
 export default function Bio ({
@@ -53,9 +57,31 @@ export default function Bio ({
           </dd>
           <dt className={style.bioListHead}>Phone</dt>
           <dd className={style.bioListItem}>
-            <a href={`tel:${bio.phoneAus}`}>{bio.phoneAus}</a>
+            <img className={style.bioListItemFlag}
+              src={flagRu}
+              alt="ru"
+              width="16"
+              height="" />
+            <a href={`tel:${bio.phoneRus}`}>{bio.phoneRus}</a>
             <Icon className={style.bioExternal} type="whatsapp" size="s" />
             <Icon className={style.bioExternal} type="viber" size="s" />
+            <Icon className={style.bioExternal} type="telegram" size="s" />
+          </dd>
+          <dd className={style.bioListItem}>
+            <img className={style.bioListItemFlag}
+              src={flagAu}
+              alt="au"
+              width="16"
+              height="" />
+            <a href={`tel:${bio.phoneAus}`}>{bio.phoneAus}</a>
+          </dd>
+          <dd className={style.bioListItem}>
+            <img className={style.bioListItemFlag}
+              src={flagTh}
+              alt="th"
+              width="16"
+              height="" />
+            <a href={`tel:${bio.phoneThai}`}>{bio.phoneThai}</a>
           </dd>
           <dt className={style.bioListHead}>Skype</dt>
           <dd className={style.bioListItem}>
