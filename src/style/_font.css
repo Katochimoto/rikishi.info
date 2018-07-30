@@ -1,5 +1,6 @@
 @font-face {
   font-family: 'Quicksand';
+  font-display: auto;
   src: url('./fonts/QuicksandBook-Regular.eot');
   src: url('./fonts/QuicksandBook-Regular.woff2') format('woff2'),
        url('./fonts/QuicksandBook-Regular.woff') format('woff'),
@@ -12,6 +13,7 @@
 
 @font-face {
   font-family: 'Quicksand';
+  font-display: auto;
   src: url('./fonts/QuicksandLight-Regular.eot');
   src: url('./fonts/QuicksandLight-Regular.woff2') format('woff2'),
        url('./fonts/QuicksandLight-Regular.woff') format('woff'),
