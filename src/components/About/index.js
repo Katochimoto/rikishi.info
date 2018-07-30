@@ -4,10 +4,10 @@ import BioContainer from '../../containers/BioContainer'
 
 import style from './index.css'
 
-export default function About ({ match }) {
+export default function About (props) {
   return (
     <div className={style.about}>
-      { match.path === '/' ? <CardContainer /> : <BioContainer /> }
+      { props.match.path === '/' ? <CardContainer {...props} /> : <BioContainer {...props} /> }
       <Footer />
     </div>
   );

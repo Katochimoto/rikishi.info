@@ -8,12 +8,16 @@ function getStores () {
   ]
 }
 
-function getState () {
+function getState (prevState, props) {
   const bio = bioStore.getState()
 
   return {
+    ...props,
     bio,
   }
 }
 
-export default Container.createFunctional(Bio, getStores, getState)
+export default Container.createFunctional(Bio, getStores, getState, {
+  withProps: true,
+  withContext: true,
+})

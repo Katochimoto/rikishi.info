@@ -1,17 +1,25 @@
+import {
+  Link,
+  Route,
+  Switch,
+} from 'react-router-dom'
+import classnames from 'classnames'
+
+import PrivateRoute from '../../containers/PrivateRoute'
+
 import Avatar from '../Avatar'
 import Social from '../Social'
 import Icon from '../Icon'
-
-import flagRu from '../../images/ru.svg'
-import flagAu from '../../images/au.svg'
-import flagTh from '../../images/th.svg'
+import BioContent from '../BioContent'
+import Qr from '../Qr'
 
 import style from './index.css'
 
-export default function Bio ({
-  bio,
-  hasAccess,
-}) {
+export default function Bio (props) {
+  const {
+    bio,
+    match,
+  } = props;
 
   const socialItems1 = [
     { href: bio.github, title: 'GitHub', type: 'github' },
@@ -28,8 +36,14 @@ export default function Bio ({
     { href: bio.twitter, title: 'Twitter', type: 'twitter' },
     { href: bio.google, title: 'Google+', type: 'google-plus' },
     { href: `icq:${bio.icq}`, type: 'icq', title: 'ICQ', target: null },
+    { href: bio.telegram, title: 'Telegram', type: 'telegram' },
     { href: bio.rss, title: 'RSS', type: 'rss' },
   ];
+
+  const classesQrLink = classnames({
+    [ style.bioPersonal ]: true,
+    [ style.bioPersonalQr ]: true,
+  })
 
   return (
     <section className={style.bio}>
@@ -42,56 +56,29 @@ export default function Bio ({
           <h1 className={style.bioName}>{bio.fullname}</h1>
           <p className={style.bioRole}>{bio.role}</p>
 
+          <Switch>
+            <Route path={`${match.path}/qr`} render={() => (
+              <Link to="/bio" className={classesQrLink}>
+                <Icon type="v-card" size="s" />
+              </Link>
+            )} />
+            <Route path={match.path} render={() => (
+              <Link to="/bio/qr" className={classesQrLink}>
+                <Icon type="qr" size="s" />
+              </Link>
+            )} />
+          </Switch>
+
           <a href={bio.cv} className={style.bioPersonal} target="_blank">CV</a>
           <a href={bio.vcard} className={style.bioPersonal} target="_blank">vCard</a>
         </div>
       </header>
       <footer className={style.bioContent}>
-        <dl className={style.bioList}>
-          <dt className={style.bioListHead}>Email</dt>
-          <dd className={style.bioListItem}>
-            <a href={`mailto:${bio.email}`}>{bio.email}</a>
-            <a href={bio.pgp} target="_blank" className={style.bioExternal}>
-              <Icon type="key" size="s" />
-            </a>
-          </dd>
-          <dt className={style.bioListHead}>Phone</dt>
-          <dd className={style.bioListItem}>
-            <img className={style.bioListItemFlag}
-              src={flagRu}
-              alt="ru"
-              width="16"
-              height="" />
-            <a href={`tel:${bio.phoneRus}`}>{bio.phoneRus}</a>
-            <Icon className={style.bioExternal} type="whatsapp" size="s" />
-            <Icon className={style.bioExternal} type="viber" size="s" />
-            <Icon className={style.bioExternal} type="telegram" size="s" />
-          </dd>
-          <dd className={style.bioListItem}>
-            <img className={style.bioListItemFlag}
-              src={flagAu}
-              alt="au"
-              width="16"
-              height="" />
-            <a href={`tel:${bio.phoneAus}`}>{bio.phoneAus}</a>
-          </dd>
-          <dd className={style.bioListItem}>
-            <img className={style.bioListItemFlag}
-              src={flagTh}
-              alt="th"
-              width="16"
-              height="" />
-            <a href={`tel:${bio.phoneThai}`}>{bio.phoneThai}</a>
-          </dd>
-          <dt className={style.bioListHead}>Skype</dt>
-          <dd className={style.bioListItem}>
-            <a href={`skype:${bio.skype}?add`}>{bio.skype}</a>
-          </dd>
-          <dt className={style.bioListHead}>Jabber</dt>
-          <dd className={style.bioListItem}>
-            <a href={`xmpp:${bio.jabber}?message`}>{bio.jabber}</a>
-          </dd>
-        </dl>
+        <Switch>
+          <Route path={`${match.path}/qr`} render={(props) => <Qr {...props} bio={bio} />} />
+          <Route path={match.path} render={(props) => <BioContent {...props} bio={bio} />} />
+        </Switch>
+
         <Social items={socialItems1} size="s" circle={false} />
         <Social items={socialItems2} size="s" circle={false} />
       </footer>

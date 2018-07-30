@@ -44,47 +44,17 @@
 }
 
 .bio-personal {
+  vertical-align: top;
   text-transform: initial;
   margin-top: 0.5em;
   display: inline-block;
 }
 
 .bio-personal + .bio-personal {
-  margin-left: 0.5em;
+  margin-left: 0.7em;
 }
 
-.bio-list {
-  text-align: left;
-  text-transform: initial;
-  font-size: 11pt;
-  line-height: 1.5em;
-  margin: 0;
-  margin-bottom: 1em;
-}
-
-.bio-list-head {
-  font-weight: 400;
-}
-
-.bio-list-item {
-  margin-left: 1em;
-  margin-bottom: 0.5em;
-}
-
-.bio-list-item-flag {
-  margin-left: -1em;
-  margin-right: 1em;
-}
-
-.bio-list-item + .bio-list-head {
-  margin-top: 0.2em;
-}
-
-.bio-external {
-  float: right;
-  color: var(--color-fg-light);
-}
-
-.bio-external + .bio-external {
-  margin-right: 0.5em;
+.bio-personal-qr {
+  float: left;
+  padding-top: 3px;
 }
