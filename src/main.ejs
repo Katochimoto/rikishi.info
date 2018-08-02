@@ -32,6 +32,12 @@
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <% } %>
 
+    <script>
+      if (window.location && (window.location.protocol === 'http:' || /^www\./.test(location.hostname))) {
+        window.location.replace(window.location.href.replace('http:', 'https:').replace('//www.', '//'));
+      }
+    </script>
+
     <% if (Array.isArray(htmlWebpackPlugin.options.inlineCss)) { %>
       <% for (css of htmlWebpackPlugin.options.inlineCss) { %>
         <style type="text/css"><%= css %></style>
