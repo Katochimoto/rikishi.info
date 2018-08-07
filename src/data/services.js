@@ -72,9 +72,11 @@ function readBio ({ email, pass }) {
       const openpgp = require('openpgp')
       const base64js = require('base64-js')
       const data = require('../bio.txt')
+      const pubkey = require('../pubkey.txt')
 
-      pubkeyRequest(email, { openpgp })
-        .then(pubkey => verify(data, pubkey, { openpgp }))
+      // pubkeyRequest(email, { openpgp })
+      //  .then(pubkey => verify(data, pubkey, { openpgp }))
+      verify(data, pubkey, { openpgp })
         .then(encrypted => decrypt(encrypted, pass, { openpgp, base64js }))
         .then(resolve, reject)
     })
